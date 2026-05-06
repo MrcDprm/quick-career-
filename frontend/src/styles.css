@@ -25,6 +25,35 @@ body {
 .optimization-page {
   max-width: 1180px;
   margin: 0 auto;
+/* AI Optimized by Skills Agent: Topbar separates workspace identity from feature content. */
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 920px;
+  margin: 0 auto 28px;
+}
+
+/* AI Optimized by Skills Agent: Compact status indicator supports backend connectivity later. */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid #c9dfd8;
+  border-radius: 999px;
+  color: #1d5f56;
+  background: #eef8f4;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* AI Optimized by Skills Agent: Intro section establishes product purpose without marketing-heavy layout. */
+.intro {
+  max-width: 920px;
+  margin: 0 auto 32px;
 }
 
 .eyebrow {
@@ -254,9 +283,23 @@ h2 {
   border-bottom: 0;
 }
 
+/* AI Optimized by Skills Agent: Descriptions make skeleton routes reviewable without layout shifts. */
+.workflow-card p {
+  margin: 10px 0 0;
+  color: #5b6778;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+/* AI Optimized by Skills Agent: Mobile spacing keeps text from crowding narrow screens. */
 @media (max-width: 640px) {
   .app-shell {
     padding: 24px 14px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    gap: 12px;
   }
 
   h1 {

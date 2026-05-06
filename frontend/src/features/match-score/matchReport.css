@@ -1,0 +1,90 @@
+/* AI Optimized by Skills Agent: Match report styles keep dense analysis scannable and responsive. */
+.match-report {
+  width: 100%;
+  max-width: 980px;
+  padding: 24px;
+  border: 1px solid #dfe5ed;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+/* AI Optimized by Skills Agent: Status block prevents loading and error states from shifting layout. */
+.match-report.status {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  color: #465466;
+}
+
+/* AI Optimized by Skills Agent: Header separates role context from score context. */
+.match-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #edf1f6;
+  padding-bottom: 20px;
+}
+
+/* AI Optimized by Skills Agent: Compact label supports quick scanning in demo mode. */
+.match-eyebrow {
+  margin: 0 0 6px;
+  color: #2f6f73;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* AI Optimized by Skills Agent: Score card uses fixed sizing so percentage changes do not resize the layout. */
+.score-card {
+  width: 132px;
+  min-height: 104px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  border-radius: 8px;
+  background: #eef8f4;
+  color: #1d5f56;
+  text-align: center;
+}
+
+/* AI Optimized by Skills Agent: Percentage value remains stable for two or three digit scores. */
+.score-card strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+/* AI Optimized by Skills Agent: Grid supports side-by-side comparison without nested cards. */
+.match-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+/* AI Optimized by Skills Agent: Panels frame repeated insight groups in the report. */
+.match-panel {
+  min-height: 180px;
+}
+
+/* AI Optimized by Skills Agent: Lists preserve long skill names without overflow. */
+.match-panel li {
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+  color: #465466;
+  line-height: 1.45;
+}
+
+/* AI Optimized by Skills Agent: Narrow screens stack sections while keeping score visible. */
+@media (max-width: 760px) {
+  .match-summary {
+    flex-direction: column;
+  }
+
+  .score-card {
+    width: 100%;
+  }
+
+  .match-grid {
+    grid-template-columns: 1fr;
+  }
+}
