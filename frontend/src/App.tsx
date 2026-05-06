@@ -1,9 +1,11 @@
+// AI Optimized by Skills Agent: App renders the current QC-008 workflow surface directly.
+import { OptimizationReview } from "./features/optimization-review";
 // AI Optimized by Skills Agent: App shell mirrors the roadmap workflow without implementing feature internals yet.
 import { AppShell } from "./components/AppShell";
 import { workflowSteps } from "./types/workflowMetadata";
 
-// AI Optimized by Skills Agent: Responsive first screen gives the team a usable skeleton for Sprint 1.
 export function App() {
+  return <OptimizationReview />;
   return (
     <AppShell>
       <section className="intro">
