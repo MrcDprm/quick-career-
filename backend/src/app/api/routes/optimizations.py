@@ -8,10 +8,13 @@ from app.schemas.optimization import (
     OptimizationRequest,
     OptimizationRunResponse,
 )
+from app.schemas.export import ExportRequest, GeneratedResumeResponse
 from app.services.cv_optimizer import CVOptimizerService, OptimizationNotFoundError
+from app.services.document_export import DocumentExportError, DocumentExportService
 
 router = APIRouter(prefix="/optimizations", tags=["optimizations"])
 optimizer_service = CVOptimizerService()
+document_export_service = DocumentExportService()
 
 
 # AI Optimized by Skills Agent: Keeps module health visible for skeleton and smoke checks.
@@ -33,3 +36,21 @@ async def get_optimization_diff(optimization_run_id: UUID) -> OptimizationDiffRe
         return optimizer_service.get_diff(optimization_run_id)
     except OptimizationNotFoundError as exc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+
+
+# AI Optimized by Skills Agent: Exports a final optimized CV artifact without waiting for manual approval.
+@router.post("/{optimization_run_id}/export", response_model=GeneratedResumeResponse)
+async def export_optimization(
+    optimization_run_id: UUID,
+    request: ExportRequest,
+) -> GeneratedResumeResponse:
+    if request.optimization_run_id != optimization_run_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Path optimization id must match request optimization id.",
+        )
+
+    try:
+        return document_export_service.export(request)
+    except DocumentExportError as exc:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
