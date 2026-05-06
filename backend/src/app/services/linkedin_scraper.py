@@ -22,7 +22,7 @@ class _LinkedInJobSearchParser(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attrs_dict = dict(attrs)
         href = attrs_dict.get("href")
-        class_name = attrs_dict.get("class", "")
+        class_name = attrs_dict.get("class") or ""
         if tag in {"a", "li", "div"} and ("job" in class_name.lower() or (href and "/jobs/view/" in href)):
             self._capture = True
             self._current_href = urljoin(self._base_url, href) if href else self._current_href
