@@ -11,3 +11,23 @@ export async function apiGet<TResponse>(path: string): Promise<TResponse> {
 
   return response.json() as Promise<TResponse>;
 }
+
+// AI Optimized by Skills Agent: Shared POST wrapper keeps feature modules focused on typed payloads.
+export async function apiPost<TRequest, TResponse>(
+  path: string,
+  payload: TRequest,
+): Promise<TResponse> {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(`API request failed with status ${response.status}`);
+  }
+
+  return response.json() as Promise<TResponse>;
+}
