@@ -1,4 +1,4 @@
-/* AI Optimized by Skills Agent: Base styling keeps the skeleton responsive and readable. */
+/* AI Optimized by Skills Agent: Base styling keeps the workflow shell responsive and readable. */
 :root {
   color: #18212f;
   background: #f6f7fb;
@@ -11,86 +11,297 @@
   box-sizing: border-box;
 }
 
-/* AI Optimized by Skills Agent: Body reset provides a predictable full-page app canvas. */
 body {
   margin: 0;
   min-width: 320px;
 }
 
-/* AI Optimized by Skills Agent: App shell uses constrained content width without card nesting. */
+button,
+a {
+  font: inherit;
+}
+
 .app-shell {
   min-height: 100vh;
-  padding: 48px 24px;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
 }
 
-/* AI Optimized by Skills Agent: Intro section establishes product purpose without marketing-heavy layout. */
-.intro {
-  max-width: 920px;
-  margin: 0 auto 32px;
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-height: 100vh;
+  padding: 28px;
+  border-right: 1px solid #dfe5ed;
+  background: #ffffff;
 }
 
-/* AI Optimized by Skills Agent: Eyebrow text stays compact inside the operational UI. */
-.eyebrow {
+.brand-kicker,
+.eyebrow,
+.state-label {
   margin: 0 0 8px;
   color: #2f6f73;
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-/* AI Optimized by Skills Agent: Main heading uses stable sizing for mobile and desktop. */
 h1 {
-  max-width: 760px;
   margin: 0;
-  font-size: 2.5rem;
-  line-height: 1.1;
+  font-size: 1.45rem;
+  line-height: 1.2;
 }
 
-/* AI Optimized by Skills Agent: Paragraph width keeps dense workflow text scannable. */
-.intro p:last-child {
-  max-width: 720px;
-  color: #465466;
-  line-height: 1.65;
-}
-
-/* AI Optimized by Skills Agent: Grid supports the modular workflow views planned in ROADMAP.md. */
-.workflow {
+.route-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  max-width: 920px;
-  margin: 0 auto;
+  gap: 8px;
 }
 
-/* AI Optimized by Skills Agent: Cards represent repeated workflow items with stable dimensions. */
-.workflow-card {
-  min-height: 136px;
-  padding: 20px;
-  border: 1px solid #dfe5ed;
+.route-link {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: #ffffff;
+  color: #465466;
+  text-decoration: none;
 }
 
-/* AI Optimized by Skills Agent: Step index creates scan order without extra instruction text. */
-.workflow-card span {
+.route-link:hover,
+.route-link[aria-current="page"] {
+  border-color: #b9d7d9;
+  background: #edf7f7;
+  color: #173f42;
+}
+
+.route-link span {
   color: #2f6f73;
   font-weight: 800;
 }
 
-/* AI Optimized by Skills Agent: Card headings remain compact for operational dashboard surfaces. */
-.workflow-card h2 {
-  margin: 28px 0 0;
-  font-size: 1.05rem;
-  line-height: 1.3;
+.workspace {
+  width: min(1120px, 100%);
+  padding: 32px;
 }
 
-/* AI Optimized by Skills Agent: Mobile spacing keeps text from crowding narrow screens. */
-@media (max-width: 640px) {
+.workspace-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.workspace-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.workspace-header p:last-child {
+  max-width: 680px;
+  margin: 10px 0 0;
+  color: #465466;
+  line-height: 1.6;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 40px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.primary-action {
+  flex: 0 0 auto;
+  padding: 0 18px;
+  background: #1f6f73;
+  color: #ffffff;
+}
+
+.secondary-action {
+  margin-top: 14px;
+  padding: 0 14px;
+  background: #ffffff;
+  color: #9a3412;
+  border: 1px solid #dfe5ed;
+}
+
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.snapshot,
+.route-detail,
+.state-block {
+  background: #ffffff;
+  border: 1px solid #dfe5ed;
+  border-radius: 8px;
+}
+
+.snapshot {
+  min-height: 108px;
+  padding: 18px;
+}
+
+.snapshot span,
+dt {
+  display: block;
+  margin-bottom: 12px;
+  color: #637083;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.snapshot strong,
+dd {
+  color: #18212f;
+  font-size: 1rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.snapshot--good {
+  border-color: #9ed5b3;
+  background: #f0fbf4;
+}
+
+.snapshot--warning {
+  border-color: #f0c36d;
+  background: #fff8e8;
+}
+
+.route-detail {
+  margin-bottom: 16px;
+  padding: 20px;
+}
+
+.route-detail dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+}
+
+dd {
+  margin: 0;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.state-block {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 16px;
+  padding: 20px;
+}
+
+.state-block h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.state-block p:last-child,
+.state-block p:nth-child(3) {
+  max-width: 680px;
+  margin: 8px 0 0;
+  color: #465466;
+  line-height: 1.6;
+}
+
+.state-indicator {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #dfe5ed;
+}
+
+.state-block--loading .state-indicator {
+  border: 3px solid #b9d7d9;
+  border-top-color: #1f6f73;
+  background: transparent;
+  animation: spin 0.9s linear infinite;
+}
+
+.state-block--ready .state-indicator {
+  background: #37a169;
+}
+
+.state-block--error {
+  border-color: #f4b4a2;
+  background: #fff6f3;
+}
+
+.state-block--error .state-indicator {
+  background: #c2410c;
+}
+
+.state-block--error .state-label {
+  color: #9a3412;
+}
+
+.state-block--empty .state-indicator {
+  background: #8aa2b6;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 860px) {
   .app-shell {
-    padding: 32px 16px;
+    grid-template-columns: 1fr;
   }
 
-  h1 {
-    font-size: 2rem;
+  .sidebar {
+    min-height: auto;
+    padding: 20px;
+    border-right: 0;
+    border-bottom: 1px solid #dfe5ed;
+  }
+
+  .route-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .workspace {
+    padding: 24px 20px;
+  }
+
+  .workspace-header {
+    flex-direction: column;
+  }
+
+  .primary-action {
+    width: 100%;
+  }
+
+  .snapshot-grid,
+  .route-detail dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .route-list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .route-link {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .workspace-header h2 {
+    font-size: 1.5rem;
   }
 }
