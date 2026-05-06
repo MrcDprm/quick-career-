@@ -1,0 +1,138 @@
+/* AI Optimized by Skills Agent: Final workflow surface keeps profile capture and automation visible together. */
+.autopilot-workspace {
+  max-width: 1180px;
+  margin: 28px auto 0;
+  padding: 24px;
+  border: 1px solid #dfe5ed;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+/* AI Optimized by Skills Agent: Header pairs scenario context with the autonomous run command. */
+.autopilot-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid #edf1f6;
+  padding-bottom: 20px;
+}
+
+.autopilot-header p:last-child {
+  max-width: 760px;
+  color: #465466;
+  line-height: 1.6;
+}
+
+.autopilot-header button {
+  min-width: 148px;
+  height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: #245c5f;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+/* AI Optimized by Skills Agent: Two-column layout supports dense profile entry without hiding results. */
+.autopilot-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+/* AI Optimized by Skills Agent: Form grid keeps repeated profile fields aligned and scannable. */
+.profile-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.profile-form label {
+  display: grid;
+  gap: 6px;
+  color: #465466;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.profile-form .wide {
+  grid-column: 1 / -1;
+}
+
+/* AI Optimized by Skills Agent: Inputs support long profile text without breaking responsive layout. */
+.profile-form input,
+.profile-form textarea {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #cfd8df;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #18212f;
+  font: inherit;
+}
+
+.profile-form textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+
+/* AI Optimized by Skills Agent: Preview panel keeps saved profile and application trace visible. */
+.autopilot-preview {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.autopilot-preview section {
+  padding: 18px;
+  border: 1px solid #dbe2e2;
+  border-radius: 8px;
+  background: #f9fbfb;
+}
+
+.autopilot-preview p {
+  overflow-wrap: anywhere;
+  color: #465466;
+  line-height: 1.55;
+}
+
+.autopilot-error {
+  background: #fff2f0;
+  color: #9d2f23;
+}
+
+/* AI Optimized by Skills Agent: Results list shows sequential applications and highlighted skills. */
+.application-results {
+  display: grid;
+  gap: 12px;
+}
+
+.application-results article {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.application-results small,
+.application-results span {
+  color: #5b6778;
+}
+
+@media (max-width: 900px) {
+  .autopilot-header,
+  .autopilot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .autopilot-header {
+    flex-direction: column;
+  }
+
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -21,6 +21,11 @@ class OptimizationRequest(BaseModel):
     target_role: str = Field(..., min_length=2)
     resume_text: str = Field(..., min_length=40)
     job_keywords: list[str] = Field(default_factory=list)
+    candidate_brief: str = Field(
+        default="",
+        description="General candidate information used to tailor the ATS resume and application note.",
+    )
+    candidate_name: str = "Quick-Career Candidate"
 
 
 # AI Optimized by Skills Agent: Captures autonomous before/after changes for trace UI.
@@ -39,6 +44,9 @@ class OptimizationRunResponse(BaseModel):
     match_score_before: int
     match_score_after: int
     diff: list[OptimizationDiffItem]
+    highlighted_skills: list[str] = []
+    ats_resume_markdown: str = ""
+    application_brief: str = ""
 
 
 # AI Optimized by Skills Agent: Dedicated diff response keeps review UI payloads focused.

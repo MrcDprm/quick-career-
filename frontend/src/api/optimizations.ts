@@ -23,6 +23,9 @@ export type OptimizationRunResponse = {
   match_score_before: number;
   match_score_after: number;
   diff: OptimizationDiffItem[];
+  highlighted_skills: string[];
+  ats_resume_markdown: string;
+  application_brief: string;
 };
 
 export type OptimizationRequest = {
@@ -30,6 +33,8 @@ export type OptimizationRequest = {
   resume_text: string;
   job_keywords: string[];
   job_post_id?: string | null;
+  candidate_brief?: string;
+  candidate_name?: string;
 };
 
 export function createOptimization(payload: OptimizationRequest) {

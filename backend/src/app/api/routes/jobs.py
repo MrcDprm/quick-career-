@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.schemas.job import JobAnalyzeRequest, JobPostResponse
 from app.services.job_analysis import JobAnalysisService, JobNotFoundError
+from app.services.web_scraper import JobScrapingError
 
 router = APIRouter(prefix="/jobs", tags=["jobs"])
 job_analysis_service = JobAnalysisService()
@@ -17,7 +18,10 @@ async def jobs_route_status() -> dict[str, str]:
 
 @router.post("/analyze", response_model=JobPostResponse, status_code=status.HTTP_201_CREATED)
 async def analyze_job(request: JobAnalyzeRequest) -> JobPostResponse:
-    return await job_analysis_service.analyze(request)
+    try:
+        return await job_analysis_service.analyze(request)
+    except JobScrapingError as exc:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
 
 @router.get("/{job_id}", response_model=JobPostResponse)

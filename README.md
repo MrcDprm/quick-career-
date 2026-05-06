@@ -2,6 +2,15 @@
 
 Quick-Career is an autonomous FastAPI + React system that analyzes job posts, optimizes CVs and prepares applications to reduce repetitive job-search work by at least 50 percent.
 
+Current MVP supports saved personal profiles, education/certification/skills/experience capture, public LinkedIn job search scraping with filters, candidate briefing, keyword-based skill highlighting, ATS-friendly Markdown CV generation, export, sequential automatic submission and efficiency metrics.
+
+## Final Demo Scenario
+
+1. Save a candidate profile with personal info, education, certificates, skills, experience, projects and languages.
+2. Provide LinkedIn job filters or a public LinkedIn jobs search URL.
+3. Run `/api/autopilot/apply`.
+4. The system filters suitable jobs, creates an ATS-friendly CV for each job and submits applications in order.
+
 ## Project Layout
 
 ```text

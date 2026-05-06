@@ -15,7 +15,7 @@ class DocumentExportService:
         if not request.optimized_summary.strip():
             raise DocumentExportError("Optimized summary is required before export.")
 
-        content = self._render_markdown(request)
+        content = request.ats_resume_markdown or self._render_markdown(request)
         extension = "md" if request.format == ExportFormat.MARKDOWN else request.format.value
 
         return GeneratedResumeResponse(

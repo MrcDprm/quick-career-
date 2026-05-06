@@ -10,6 +10,16 @@ BACKEND_SRC = ROOT / "backend" / "src"
 sys.path.insert(0, str(BACKEND_SRC))
 
 from app.main import create_app  # noqa: E402
+from app.schemas.job import JobAnalyzeRequest  # noqa: E402
+from app.services.job_analysis import JobAnalysisService  # noqa: E402
+
+
+class _FakeScraper:
+    def scrape(self, source_url: str) -> str:
+        return (
+            "Senior Backend Developer role requiring Python, FastAPI, PostgreSQL, "
+            "API ownership and workflow automation."
+        )
 
 
 def test_analyze_job_returns_structured_analysis_and_trace_id() -> None:
@@ -53,6 +63,23 @@ def test_analyze_job_rejects_empty_or_too_short_input() -> None:
     response = client.post("/api/jobs/analyze", json={"raw_text": "too short"})
 
     assert response.status_code == 422
+
+
+def test_analyze_job_can_scrape_url_source_with_fake_scraper() -> None:
+    service = JobAnalysisService(scraper=_FakeScraper())
+
+    response = TestClient(create_app())
+    assert response
+
+    created = service.analyze(
+        JobAnalyzeRequest(source_type="url", source_url="https://example.com/job")
+    )
+
+    import asyncio
+
+    payload = asyncio.run(created)
+    assert payload.source_type == "url"
+    assert "FastAPI" in payload.raw_text
 
 
 def test_get_job_returns_404_for_unknown_id() -> None:
