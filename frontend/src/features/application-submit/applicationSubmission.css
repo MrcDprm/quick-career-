@@ -1,0 +1,114 @@
+/* AI Optimized by Skills Agent: Submission UI frames the autonomous package without modal friction. */
+.submission-panel {
+  width: 100%;
+  max-width: 760px;
+  padding: 24px;
+  border: 1px solid #dfe5ed;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+/* AI Optimized by Skills Agent: Header keeps target and adapter mode visible for traceability. */
+.submission-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #edf1f6;
+  padding-bottom: 18px;
+}
+
+/* AI Optimized by Skills Agent: Compact label names the current automation stage. */
+.submission-eyebrow {
+  margin: 0 0 6px;
+  color: #2f6f73;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* AI Optimized by Skills Agent: Mode badge has stable size across adapter names. */
+.submission-mode {
+  min-width: 88px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #eef8f4;
+  color: #1d5f56;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* AI Optimized by Skills Agent: Summary supports long generated text without overflow. */
+.package-summary {
+  display: grid;
+  gap: 18px;
+  margin: 22px 0;
+}
+
+/* AI Optimized by Skills Agent: Definition labels remain compact in dense workflow surfaces. */
+.package-summary dt {
+  margin-bottom: 6px;
+  color: #667386;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+/* AI Optimized by Skills Agent: Generated application text wraps safely for mobile and desktop. */
+.package-summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #18212f;
+  line-height: 1.55;
+}
+
+/* AI Optimized by Skills Agent: Receipt state is visible without interrupting the workflow. */
+.receipt {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #f6f7fb;
+}
+
+/* AI Optimized by Skills Agent: Submitted state uses a calm green status treatment. */
+.receipt-submitted {
+  background: #eef8f4;
+  color: #1d5f56;
+}
+
+/* AI Optimized by Skills Agent: Failure state is readable and retry-friendly. */
+.receipt-failed {
+  background: #fff2f0;
+  color: #9d2f23;
+}
+
+/* AI Optimized by Skills Agent: Primary action stays stable while disabled or loading. */
+.submission-panel button {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: #2f6f73;
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* AI Optimized by Skills Agent: Disabled action communicates incomplete package state. */
+.submission-panel button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* AI Optimized by Skills Agent: Mobile layout stacks status details cleanly. */
+@media (max-width: 640px) {
+  .submission-header {
+    flex-direction: column;
+  }
+
+  .submission-mode {
+    width: 100%;
+  }
+}

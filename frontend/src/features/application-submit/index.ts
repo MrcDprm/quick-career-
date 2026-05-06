@@ -1,2 +1,3 @@
-// AI Optimized by Skills Agent: Feature placeholder for automatic application submission UI.
-export const applicationSubmitFeature = "application-submit";
+// AI Optimized by Skills Agent: Public exports for automatic application submission UI.
+export { ApplicationSubmissionPanel } from "./ApplicationSubmissionPanel";
+export type { ApplicationPackage, SubmissionReceipt } from "./ApplicationSubmissionPanel";
