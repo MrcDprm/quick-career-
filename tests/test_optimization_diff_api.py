@@ -27,6 +27,9 @@ def test_create_optimization_and_fetch_diff() -> None:
     assert payload["status"] == "finalized"
     assert payload["match_score_after"] > payload["match_score_before"]
     assert len(payload["diff"]) >= 3
+    assert "FastAPI" in payload["highlighted_skills"]
+    assert "## Core Skills" in payload["ats_resume_markdown"]
+    assert "General application note" in payload["application_brief"]
 
     diff_response = client.get(f"/api/optimizations/{payload['id']}/diff")
 

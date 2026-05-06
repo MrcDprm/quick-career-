@@ -2,6 +2,8 @@
 
 Quick-Career is an autonomous FastAPI + React system that analyzes job posts, optimizes CVs and prepares applications to reduce repetitive job-search work by at least 50 percent.
 
+Current MVP supports pasted job text, public job URL scraping, candidate general briefing, keyword-based skill highlighting, ATS-friendly Markdown CV generation, export, automatic submission and efficiency metrics.
+
 ## Project Layout
 
 ```text

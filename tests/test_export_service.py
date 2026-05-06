@@ -30,3 +30,22 @@ def test_document_export_service_generates_markdown_resume() -> None:
     assert result.file_name.endswith(".md")
     assert result.is_final is True
     assert "FastAPI" in result.content
+
+
+# AI Optimized by Skills Agent: ATS markdown can pass through export as the canonical final CV.
+def test_document_export_service_prefers_ats_resume_markdown() -> None:
+    service = DocumentExportService()
+
+    result = service.export(
+        ExportRequest(
+            optimization_run_id=uuid4(),
+            format=ExportFormat.MARKDOWN,
+            target_role="Backend Developer",
+            optimized_summary="Generated summary",
+            optimized_skills=["Python"],
+            ats_resume_markdown="# Candidate\n\n## Core Skills\n- Python\n",
+        )
+    )
+
+    assert result.content.startswith("# Candidate")
+    assert "## Core Skills" in result.content

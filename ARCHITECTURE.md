@@ -6,10 +6,10 @@ Bu belge SolveX AI Hackathon 2026 teknik sartnamesindeki Plan Agent ciktisidir. 
 
 ## Goals
 
-- Is ilanindan rol, seviye, yetkinlik, anahtar kelime, sorumluluk ve eleme kriterlerini cikarmak.
+- Is ilanini metin veya URL scraping ile alip rol, seviye, yetkinlik, anahtar kelime, sorumluluk ve eleme kriterlerini cikarmak.
 - CV'yi parse ederek aday profili, deneyim, beceri, proje ve olculebilir basari alanlarini standart modele donusturmek.
 - Ilan ile CV arasindaki uyumu skorlamak ve eksikleri aciklamak.
-- Otonom optimizasyon ile CV'yi hedef ilana gore yeniden yazmak, farklari kaydetmek ve final ciktiyi otomatik uretmek.
+- Otonom optimizasyon ile CV'yi hedef ilana ve aday genel bilgilendirmesine gore yeniden yazmak, yetkinlikleri one cikarmak ve ATS uyumlu final ciktiyi otomatik uretmek.
 - Optimize edilmis CV ve basvuru metni ile tam otomatik basvuru gonderimi akisini desteklemek.
 - Manuel sure, tiklama sayisi ve tekrar eden kopyala/yapistir adimlarini olcerek `%50+` is azaltimini gostermek.
 
@@ -43,10 +43,10 @@ flowchart LR
 Ana akis:
 
 1. Kullanici ilan metni girer veya ilan URL'si ekler.
-2. Backend ilan metnini normalize eder ve `Job Analysis Agent` ile rol, beceri, deneyim, anahtar kelime ve eleme kriterlerini cikarir.
-3. Kullanici CV yukler; `CV Parsing / Profile Store` CV'yi yapilandirilmis `ResumeProfile` modeline cevirir.
+2. Backend URL verilirse web scraping ile ilan metnini ceker, normalize eder ve `Job Analysis Agent` ile rol, beceri, deneyim, anahtar kelime ve eleme kriterlerini cikarir.
+3. Kullanici CV yukler ve genel bilgilendirme metni verir; `CV Parsing / Profile Store` CV'yi yapilandirilmis `ResumeProfile` modeline cevirir.
 4. `Match Scoring` ilana gore beceri eslesmesi, eksik kriterler ve guclu alanlari skorlar.
-5. `CV Optimization Agent` CV ozetini, deneyim maddelerini, beceri siralamasini ve proje vurgularini hedef ilana gore yeniden yazar.
+5. `CV Optimization Agent` CV ozetini, deneyim maddelerini, beceri siralamasini ve proje vurgularini hedef ilana gore ATS uyumlu Markdown CV olarak yeniden yazar.
 6. Frontend kullaniciya satir/saha bazli fark ve otomasyon log ekranini sunar.
 7. Sistem degisiklikleri otonom olarak final hale getirir.
 8. Sistem PDF, DOCX ve Markdown cikti uretir.
@@ -119,9 +119,10 @@ backend/
 | Service | Responsibility |
 | --- | --- |
 | `JobAnalysisService` | Converts raw job text or URL content into structured requirements. |
+| `JobScraperService` | Fetches public job URLs and extracts visible posting text for analysis. |
 | `ResumeParserService` | Extracts candidate profile data from uploaded CV files or pasted text. |
 | `MatchScoringService` | Scores job-resume fit and produces explainable gaps. |
-| `CVOptimizerService` | Produces targeted resume edits, rewritten bullets and keyword alignment. |
+| `CVOptimizerService` | Produces targeted resume edits, highlighted skills, general application note and ATS-friendly CV Markdown. |
 | `DocumentExportService` | Generates PDF, DOCX and Markdown outputs after autonomous optimization. |
 | `ApplicationSubmissionService` | Submits optimized application packages through adapters. |
 | `AITraceabilityService` | Records prompt purpose, provider, model, input hashes and output summary. |
@@ -215,11 +216,11 @@ Frontend requirements:
 
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
-| `POST` | `/api/jobs/analyze` | Analyze a job post from pasted text or URL. |
+| `POST` | `/api/jobs/analyze` | Analyze a job post from pasted text or scraped URL. |
 | `GET` | `/api/jobs/{id}` | Fetch job and analysis details. |
 | `POST` | `/api/resumes/upload` | Upload or paste CV content and parse profile. |
 | `GET` | `/api/resumes/{id}` | Fetch parsed resume profile. |
-| `POST` | `/api/resumes/{id}/optimize` | Start optimization for a selected job. |
+| `POST` | `/api/resumes/{id}/optimize` | Start optimization using job keywords, CV text and candidate general briefing. |
 | `GET` | `/api/optimizations/{id}` | Fetch optimization status and scores. |
 | `GET` | `/api/optimizations/{id}/diff` | Fetch proposed CV changes for review. |
 | `POST` | `/api/optimizations/{id}/finalize` | Finalize autonomous changes and generate final outputs. |

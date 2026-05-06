@@ -25,6 +25,7 @@ body {
 .optimization-page {
   max-width: 1180px;
   margin: 0 auto;
+}
 /* AI Optimized by Skills Agent: Topbar separates workspace identity from feature content. */
 .topbar {
   display: flex;
@@ -281,6 +282,31 @@ h2 {
 .package-summary div:last-child {
   padding-bottom: 0;
   border-bottom: 0;
+}
+
+/* AI Optimized by Skills Agent: Demo sections connect feature modules into one working first screen. */
+.demo-section {
+  max-width: 980px;
+  margin: 28px auto 0;
+}
+
+/* AI Optimized by Skills Agent: ATS preview keeps generated Markdown readable and copy-safe. */
+.ats-preview {
+  max-width: 980px;
+  margin: 28px auto 0;
+  padding: 24px;
+  border: 1px solid #dfe5ed;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+/* AI Optimized by Skills Agent: Generated CV text wraps without breaking the page on mobile. */
+.ats-preview pre {
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #18212f;
+  line-height: 1.55;
 }
 
 /* AI Optimized by Skills Agent: Descriptions make skeleton routes reviewable without layout shifts. */

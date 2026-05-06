@@ -12,6 +12,9 @@ const demoRequest: OptimizationRequest = {
   resume_text:
     "Software developer with Python and SQL experience. Built internal tools and supported React dashboards for operational teams.",
   job_keywords: ["Python", "FastAPI", "PostgreSQL", "automation", "API ownership"],
+  candidate_brief:
+    "The candidate wants to emphasize API ownership, workflow automation and clear stakeholder communication.",
+  candidate_name: "Demo Candidate",
 };
 
 const demoRun: OptimizationRunResponse = {
@@ -43,6 +46,11 @@ const demoRun: OptimizationRunResponse = {
       reason: "Rewrites generic responsibilities as outcome-oriented evidence.",
     },
   ],
+  highlighted_skills: ["Python", "FastAPI", "PostgreSQL", "automation", "API ownership"],
+  ats_resume_markdown:
+    "# Demo Candidate\n\n## Target Role\nBackend Developer\n\n## Professional Summary\nBackend Developer profile tailored to the job posting.\n\n## Core Skills\n- Python\n- FastAPI\n- PostgreSQL\n- automation\n- API ownership\n",
+  application_brief:
+    "General application note: the candidate's strongest aligned skills are Python, FastAPI, PostgreSQL, automation and API ownership.",
 };
 
 function statusLabel(status: OptimizationRunResponse["status"]) {
@@ -80,7 +88,7 @@ export function OptimizationReview() {
   }
 
   return (
-    <main className="app-shell optimization-page">
+    <section className="optimization-page">
       <section className="page-header">
         <div>
           <p className="eyebrow">QC-008</p>
@@ -189,10 +197,28 @@ export function OptimizationReview() {
                 <dt>Sections</dt>
                 <dd>{optimizedSections}</dd>
               </div>
+              <div>
+                <dt>Highlighted skills</dt>
+                <dd>{run.highlighted_skills.join(", ")}</dd>
+              </div>
             </dl>
+          </section>
+
+          <section>
+            <p className="eyebrow">Application Brief</p>
+            <h2>General Note</h2>
+            <p>{run.application_brief}</p>
           </section>
         </aside>
       </div>
-    </main>
+
+      <section className="ats-preview" aria-label="ATS friendly CV preview">
+        <div className="section-heading">
+          <p className="eyebrow">ATS CV</p>
+          <h2>Generated Resume</h2>
+        </div>
+        <pre>{run.ats_resume_markdown}</pre>
+      </section>
+    </section>
   );
 }

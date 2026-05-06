@@ -20,6 +20,7 @@ class ExportRequest(BaseModel):
     target_role: str
     optimized_summary: str
     optimized_skills: list[str]
+    ats_resume_markdown: str | None = None
 
 
 # AI Optimized by Skills Agent: Generated resume payload returned by the export service.
