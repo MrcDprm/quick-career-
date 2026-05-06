@@ -11,12 +11,12 @@ export function App() {
     <AppShell>
       <section className="intro">
         <p>
-          Analyze job posts, optimize CVs, prepare applications and prove at least 50 percent
-          repetitive-work reduction.
+          İş ilanlarını analiz et, CV'leri optimize et, başvuru paketlerini hazırla ve tekrarlı işleri
+          en az yüzde 50 azalttığını ölçülebilir şekilde göster.
         </p>
       </section>
 
-      <section className="workflow" aria-label="Quick-Career workflow">
+      <section className="workflow" aria-label="Quick-Career iş akışı">
         {workflowSteps.map((step, index) => (
           <article className="workflow-card" key={step.stage}>
             <span>{String(index + 1).padStart(2, "0")}</span>
@@ -33,15 +33,15 @@ export function App() {
       <section className="demo-section">
         <ApplicationSubmissionPanel
           applicationPackage={{
-            target: "Demo Company Backend Team",
-            resumeFileName: "quick-career-backend-developer.md",
+            target: "Demo Şirket Backend Ekibi",
+            resumeFileName: "quick-career-backend-gelistirici.md",
             coverLetter:
-              "The candidate matches the backend automation role with FastAPI, PostgreSQL and API ownership experience.",
-            mode: "mock",
+              "Aday, FastAPI, PostgreSQL ve API sahipliği deneyimiyle backend otomasyon rolüyle güçlü şekilde eşleşiyor.",
+            mode: "platform",
           }}
           receipt={{
             status: "submitted",
-            receipt: "QC-SUB-demo submitted to Demo Company Backend Team via mock adapter.",
+            receipt: "QC-SUB-demo Demo Şirket Backend Ekibi hedefine platform adaptörüyle gönderildi.",
           }}
           onSubmit={() => undefined}
         />
@@ -51,21 +51,21 @@ export function App() {
         <EfficiencyDashboard
           metrics={[
             {
-              workflowName: "Read and summarize job post",
+              workflowName: "İlanı oku ve özetle",
               manualSteps: 8,
               automatedSteps: 1,
               manualMinutes: 10,
               automatedMinutes: 1,
             },
             {
-              workflowName: "Optimize ATS CV",
+              workflowName: "ATS uyumlu CV optimize et",
               manualSteps: 20,
               automatedSteps: 4,
               manualMinutes: 30,
               automatedMinutes: 7,
             },
             {
-              workflowName: "Prepare application note",
+              workflowName: "Başvuru bilgilendirme notu hazırla",
               manualSteps: 12,
               automatedSteps: 2,
               manualMinutes: 20,

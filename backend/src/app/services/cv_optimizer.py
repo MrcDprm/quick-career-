@@ -87,22 +87,22 @@ class CVOptimizerService:
                 section="summary",
                 before=request.resume_text[:180],
                 after=(
-                    f"{request.target_role} candidate with experience aligned to {skill_text}. "
-                    "Optimized for the target job requirements and measurable impact."
+                    f"{request.target_role} rolüne uygun, {skill_text} deneyimini öne çıkaran aday profili. "
+                    "Hedef ilanın gereksinimleri ve ölçülebilir etki için optimize edildi."
                 ),
-                reason="Aligns the opening summary with the target role and highest-value keywords.",
+                reason="Açılış özetini hedef rol dili ve en değerli anahtar kelimelerle hizalar.",
             ),
             OptimizationDiffItem(
                 section="skills",
-                before="Existing skill order from uploaded CV",
+                before="Mevcut CV'deki yetenek sırası",
                 after=skill_text or keyword_text,
-                reason="Moves job-critical keywords into the most visible skills section.",
+                reason="İlan açısından kritik anahtar kelimeleri en görünür yetenek alanına taşır.",
             ),
             OptimizationDiffItem(
                 section="experience",
-                before="Generic responsibility-focused bullets",
-                after="Rewritten impact bullets emphasize automation, ownership and role-specific outcomes.",
-                reason="Turns repeated responsibilities into evidence that matches the job post.",
+                before="Genel sorumluluk odaklı maddeler",
+                after="Etki odaklı maddeler otomasyon, sahiplik ve role özgü sonuçları vurgular.",
+                reason="Tekrarlanan sorumlulukları ilanla eşleşen kanıta dönüştürür.",
             ),
         ]
 
@@ -121,26 +121,26 @@ class CVOptimizerService:
     # AI Optimized by Skills Agent: Builds a parser-friendly ATS CV with plain headings and no decorative layout.
     def _build_ats_resume(self, request: OptimizationRequest, highlighted_skills: list[str]) -> str:
         skills = "\n".join(f"- {skill}" for skill in highlighted_skills)
-        brief = request.candidate_brief.strip() or "Candidate has provided role-relevant background."
+        brief = request.candidate_brief.strip() or "Aday role uygun geçmiş bilgisi sağlamıştır."
         return (
             f"# {request.candidate_name}\n\n"
-            f"## Target Role\n{request.target_role}\n\n"
-            "## Professional Summary\n"
-            f"{request.target_role} profile tailored to the job posting. {brief}\n\n"
-            "## Core Skills\n"
+            f"## Hedef Rol\n{request.target_role}\n\n"
+            "## Profesyonel Özet\n"
+            f"{request.target_role} ilanına göre uyarlanmış ATS uyumlu profil. {brief}\n\n"
+            "## Temel Yetenekler\n"
             f"{skills}\n\n"
-            "## Experience Highlights\n"
-            f"- Applied {', '.join(highlighted_skills[:3])} to deliver role-relevant outcomes.\n"
-            "- Reduced repetitive work through automation, structured documentation and ownership.\n"
-            "- Communicated progress clearly for technical and non-technical stakeholders.\n\n"
-            "## ATS Notes\n"
-            "- Plain section headings, keyword-aligned skills and concise bullet points are used.\n"
+            "## Deneyim Öne Çıkanları\n"
+            f"- {', '.join(highlighted_skills[:3])} kullanarak role uygun sonuçlar üretti.\n"
+            "- Otomasyon, yapılandırılmış dokümantasyon ve sahiplik ile tekrarlı işleri azalttı.\n"
+            "- Teknik ve teknik olmayan paydaşlara ilerlemeyi açık şekilde aktardı.\n\n"
+            "## ATS Notları\n"
+            "- Sade başlıklar, anahtar kelimeyle hizalı yetenekler ve kısa madde işaretleri kullanıldı.\n"
         )
 
     # AI Optimized by Skills Agent: Produces the general application note the user wanted to send.
     def _build_application_brief(self, request: OptimizationRequest, highlighted_skills: list[str]) -> str:
         return (
-            f"General application note for {request.target_role}: "
-            f"the candidate's strongest aligned skills are {', '.join(highlighted_skills[:5])}. "
-            "The attached ATS-friendly CV emphasizes these capabilities for the target posting."
+            f"{request.target_role} için genel bilgilendirme: "
+            f"adayın ilanla en güçlü eşleşen yetenekleri {', '.join(highlighted_skills[:5])}. "
+            "Eklenen ATS uyumlu CV bu yetkinlikleri hedef ilana göre öne çıkarır."
         )

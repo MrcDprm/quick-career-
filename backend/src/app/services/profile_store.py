@@ -47,38 +47,38 @@ class CandidateProfileService:
         sections = [
             profile.personal.full_name,
             profile.summary,
-            "Skills: " + ", ".join(profile.skills),
-            "Education: "
+            "Yetenekler: " + ", ".join(profile.skills),
+            "Eğitimler: "
             + "; ".join(
-                f"{entry.degree} {entry.field or ''} at {entry.school}".strip()
+                f"{entry.degree} {entry.field or ''} - {entry.school}".strip()
                 for entry in profile.education
             ),
-            "Certifications: "
+            "Sertifikalar: "
             + "; ".join(
                 f"{entry.name} {f'({entry.issuer})' if entry.issuer else ''}".strip()
                 for entry in profile.certifications
             ),
-            "Experience: "
+            "Deneyim: "
             + "; ".join(
-                f"{entry.title} at {entry.company}: {', '.join(entry.highlights)}"
+                f"{entry.title} - {entry.company}: {', '.join(entry.highlights)}"
                 for entry in profile.experiences
             ),
-            "Projects: "
+            "Projeler: "
             + "; ".join(
-                f"{entry.name}: {entry.description} using {', '.join(entry.technologies)}"
+                f"{entry.name}: {entry.description}; teknolojiler: {', '.join(entry.technologies)}"
                 for entry in profile.projects
             ),
-            "Languages: " + ", ".join(profile.languages),
+            "Diller: " + ", ".join(profile.languages),
         ]
         return "\n".join(section for section in sections if section.strip())
 
     # AI Optimized by Skills Agent: Briefing summarizes all profile data for application-note generation.
     def to_candidate_brief(self, profile: CandidateProfileRequest | CandidateProfileResponse) -> str:
         return (
-            f"{profile.personal.full_name} profile summary: {profile.summary}. "
-            f"Skills: {', '.join(profile.skills)}. "
-            f"Certifications: {', '.join(cert.name for cert in profile.certifications)}. "
-            f"Education: {', '.join(entry.school for entry in profile.education)}."
+            f"{profile.personal.full_name} profil özeti: {profile.summary}. "
+            f"Yetenekler: {', '.join(profile.skills)}. "
+            f"Sertifikalar: {', '.join(cert.name for cert in profile.certifications)}. "
+            f"Eğitimler: {', '.join(entry.school for entry in profile.education)}."
         )
 
 

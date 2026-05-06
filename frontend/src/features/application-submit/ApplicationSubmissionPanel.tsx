@@ -21,6 +21,26 @@ type ApplicationSubmissionPanelProps = {
   onSubmit: () => void;
 };
 
+// AI Optimized by Skills Agent: İngilizce enum değerlerini Türkçe görünür etiketlere çevirir.
+function statusLabel(status: SubmissionReceipt["status"]) {
+  const labels: Record<SubmissionReceipt["status"], string> = {
+    queued: "Sırada",
+    submitted: "Gönderildi",
+    failed: "Başarısız",
+  };
+  return labels[status];
+}
+
+// AI Optimized by Skills Agent: Başvuru kanalını kullanıcıya teknik enum yerine anlaşılır gösterir.
+function modeLabel(mode: ApplicationPackage["mode"]) {
+  const labels: Record<ApplicationPackage["mode"], string> = {
+    mock: "Demo",
+    email: "E-posta",
+    platform: "LinkedIn",
+  };
+  return labels[mode];
+}
+
 // AI Optimized by Skills Agent: Completeness check blocks broken packages without asking for manual approval.
 function isPackageReady(applicationPackage: ApplicationPackage) {
   return (
@@ -40,35 +60,35 @@ export function ApplicationSubmissionPanel({
   const packageReady = isPackageReady(applicationPackage);
 
   return (
-    <section className="submission-panel" aria-label="Automatic application submission">
+    <section className="submission-panel" aria-label="Otomatik başvuru gönderimi">
       <header className="submission-header">
         <div>
-          <p className="submission-eyebrow">Automatic submission</p>
+          <p className="submission-eyebrow">Otomatik başvuru</p>
           <h2>{applicationPackage.target}</h2>
         </div>
-        <span className="submission-mode">{applicationPackage.mode}</span>
+        <span className="submission-mode">{modeLabel(applicationPackage.mode)}</span>
       </header>
 
       <dl className="package-summary">
         <div>
-          <dt>Resume</dt>
+          <dt>CV</dt>
           <dd>{applicationPackage.resumeFileName}</dd>
         </div>
         <div>
-          <dt>Cover letter</dt>
+          <dt>Genel bilgilendirme</dt>
           <dd>{applicationPackage.coverLetter}</dd>
         </div>
       </dl>
 
       {receipt ? (
         <div className={`receipt receipt-${receipt.status}`} role="status">
-          <strong>{receipt.status}</strong>
+          <strong>{statusLabel(receipt.status)}</strong>
           <span>{receipt.receipt ?? receipt.errorMessage}</span>
         </div>
       ) : null}
 
       <button type="button" disabled={!packageReady || isSubmitting} onClick={onSubmit}>
-        {isSubmitting ? "Submitting..." : "Run automatic submission"}
+        {isSubmitting ? "Gönderiliyor..." : "Otomatik başvuruyu çalıştır"}
       </button>
     </section>
   );

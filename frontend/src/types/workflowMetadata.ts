@@ -11,37 +11,37 @@ export type WorkflowStep = {
 export const workflowSteps: WorkflowStep[] = [
   {
     stage: "job-analysis",
-    label: "Job Analysis",
-    description: "Extract role, seniority, required skills and keywords from a job post.",
+    label: "İlan Analizi",
+    description: "İlandan rol, seviye, gerekli yetenekler ve anahtar kelimeleri çıkarır.",
   },
   {
     stage: "resume-parsing",
-    label: "Resume Parsing",
-    description: "Convert CV content into a structured candidate profile.",
+    label: "CV Ayrıştırma",
+    description: "CV içeriğini yapılandırılmış aday profiline dönüştürür.",
   },
   {
     stage: "match-scoring",
-    label: "Match Scoring",
-    description: "Score fit and identify the highest-impact improvement gaps.",
+    label: "Eşleşme Skoru",
+    description: "Uygunluğu puanlar ve en yüksek etkili iyileştirme boşluklarını belirler.",
   },
   {
     stage: "cv-optimization",
-    label: "Autonomous CV Optimization",
-    description: "Rewrite the CV for the target job and record an automation diff.",
+    label: "Otonom CV Optimizasyonu",
+    description: "CV'yi hedef ilana göre yeniden yazar ve otomasyon fark kaydını oluşturur.",
   },
   {
     stage: "document-export",
-    label: "Document Export",
-    description: "Generate Markdown and document outputs after optimization finalizes.",
+    label: "Doküman Çıktısı",
+    description: "Optimizasyon tamamlanınca Markdown ve doküman çıktıları üretir.",
   },
   {
     stage: "application-submission",
-    label: "Automatic Application",
-    description: "Submit the optimized package through the configured adapter.",
+    label: "Otomatik Başvuru",
+    description: "Optimize edilmiş paketi yapılandırılan adaptör üzerinden gönderir.",
   },
   {
     stage: "efficiency-metrics",
-    label: "Efficiency Metrics",
-    description: "Prove repetitive-work reduction against the manual baseline.",
+    label: "Verimlilik Metrikleri",
+    description: "Tekrarlı iş azaltımını manuel temel değerlerle karşılaştırarak kanıtlar.",
   },
 ];

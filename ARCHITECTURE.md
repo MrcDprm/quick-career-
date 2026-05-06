@@ -25,8 +25,8 @@ Bu belge SolveX AI Hackathon 2026 teknik sartnamesindeki Plan Agent ciktisidir. 
 ```mermaid
 flowchart LR
     A["Personal profile"] --> B["Profile Store"]
-    C["LinkedIn filters or URL"] --> D["LinkedIn Job Scraper"]
-    D --> E["Filtered Job Listings"]
+    C["LinkedIn filters or URL"] --> D["LinkedIn Easy Apply Scraper"]
+    D --> E["Filtered Easy Apply Listings"]
     B --> F["Match Scoring"]
     E --> F
     F --> G["ATS CV Optimization Agent"]
@@ -43,8 +43,8 @@ Ana akis:
 
 1. Kullanici kisisel bilgilerini, egitimlerini, sertifikalarini, yeteneklerini, deneyimlerini, projelerini, dillerini ve genel bilgilendirmesini kaydeder.
 2. Kullanici LinkedIn filtrelerini veya public LinkedIn jobs arama URL'sini verir.
-3. Backend public LinkedIn aramasini scrape eder; LinkedIn login/blok durumunda demo-safe fallback ilanlariyla akis kesilmez.
-4. Ilanlar profil yetenekleriyle eslestirilir, filtrelenir ve uygunluk skoruna gore siralanir.
+3. Backend public LinkedIn guest aramasini `f_AL=true` ile scrape eder ve yalnizca Kolay Basvuru ilanlarini kabul eder.
+4. Ilan detaylari gercek ilan metninden zenginlestirilir, profil yetenekleriyle eslestirilir ve uygunluk skoruna gore siralanir.
 5. Her uygun ilan icin profilin tum verilerinden ATS uyumlu Markdown CV uretilir.
 6. Her ilan icin genel basvuru bilgilendirme notu hazirlanir.
 7. `Application Submission Agent` her basvuru paketini sirayla mock/email/platform adapter'iyle gonderir.
@@ -117,7 +117,7 @@ backend/
 | --- | --- |
 | `JobAnalysisService` | Converts raw job text or URL content into structured requirements. |
 | `JobScraperService` | Fetches public job URLs and extracts visible posting text for analysis. |
-| `LinkedInJobSearchService` | Builds LinkedIn search URLs, scrapes public job pages and filters listings against saved profile skills. |
+| `LinkedInJobSearchService` | Builds LinkedIn Easy Apply guest URLs, scrapes real public job cards/details and filters listings against saved profile skills. |
 | `CandidateProfileService` | Stores personal info, education, certifications, skills, experience, projects and languages. |
 | `ResumeParserService` | Extracts candidate profile data from uploaded CV files or pasted text. |
 | `MatchScoringService` | Scores job-resume fit and produces explainable gaps. |
@@ -197,7 +197,7 @@ Frontend requirements:
 - Every AI-running state needs loading, retry and failure UI.
 - Optimization changes must be inspectable after autonomous generation.
 - Application submission must show the exact target, payload summary and final confirmation.
-- Demo mode can use deterministic mock data for reliable judging.
+- Demo UI can use deterministic sample profile data, but LinkedIn autopilot search must not replace blocked/empty live results with fake jobs.
 
 ## Domain Data Model
 
@@ -220,7 +220,7 @@ Frontend requirements:
 | `GET` | `/api/jobs/{id}` | Fetch job and analysis details. |
 | `POST` | `/api/profile/` | Save personal profile, education, certificates, skills, experience and projects. |
 | `GET` | `/api/profile/latest` | Fetch the latest saved candidate profile. |
-| `POST` | `/api/autopilot/apply` | Run the full LinkedIn-filtered ATS CV and application workflow. |
+| `POST` | `/api/autopilot/apply` | Run the full LinkedIn Easy Apply-filtered ATS CV and application workflow. |
 | `POST` | `/api/resumes/upload` | Upload or paste CV content and parse profile. |
 | `GET` | `/api/resumes/{id}` | Fetch parsed resume profile. |
 | `POST` | `/api/resumes/{id}/optimize` | Start optimization using job keywords, CV text and candidate general briefing. |
@@ -250,7 +250,7 @@ This maximizes repetitive-work reduction while keeping the automation observable
 - Hash AI inputs and outputs for traceability instead of exposing full private text in logs.
 - Secrets such as AI API keys and email credentials must live in environment variables.
 - Application submission adapters must respect platform limits and rate limits.
-- Demo mode should prefer sandbox, email draft or mock submission adapter unless a target platform adapter is explicitly configured.
+- Demo mode should prefer sandbox, email draft or mock submission adapter unless a target platform adapter is explicitly configured; LinkedIn discovery itself stays real and Easy Apply-only.
 
 ## Efficiency Measurement
 

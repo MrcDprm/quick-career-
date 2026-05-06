@@ -11,16 +11,19 @@ class LinkedInJobFilters(BaseModel):
     limit: int = Field(default=5, ge=1, le=25)
     linkedin_search_url: str | None = None
     minimum_skill_matches: int = Field(default=1, ge=0)
+    easy_apply_only: bool = True
 
 
 # AI Optimized by Skills Agent: Normalized listing contract used by matching and auto-apply workflow.
 class LinkedInJobListing(BaseModel):
+    linkedin_job_id: str | None = None
     title: str
     company: str
     location: str
     source_url: str
     raw_text: str
     keywords: list[str] = Field(default_factory=list)
+    easy_apply: bool = True
     match_score: int = 0
     matched_skills: list[str] = Field(default_factory=list)
 

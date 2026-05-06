@@ -45,48 +45,48 @@ export function EfficiencyDashboard({ metrics }: EfficiencyDashboardProps) {
   const targetReached = summary.timeReduction >= 50 && summary.stepReduction >= 50;
 
   return (
-    <section className="efficiency-dashboard" aria-label="Efficiency metrics dashboard">
+    <section className="efficiency-dashboard" aria-label="Verimlilik metrikleri panosu">
       <header className="efficiency-header">
         <div>
-          <p className="efficiency-eyebrow">Efficiency proof</p>
-          <h2>{targetReached ? "50%+ target reached" : "Target in progress"}</h2>
+          <p className="efficiency-eyebrow">Verimlilik kanıtı</p>
+          <h2>{targetReached ? "%50+ hedefe ulaşıldı" : "Hedef devam ediyor"}</h2>
         </div>
         <div className="reduction-score">
           <strong>{summary.timeReduction}%</strong>
-          <span>time reduction</span>
+          <span>süre azaltımı</span>
         </div>
       </header>
 
       <div className="summary-grid">
         <article>
-          <span>Manual time</span>
-          <strong>{summary.manualMinutes} min</strong>
+          <span>Manuel süre</span>
+          <strong>{summary.manualMinutes} dk</strong>
         </article>
         <article>
-          <span>Automated time</span>
-          <strong>{summary.automatedMinutes} min</strong>
+          <span>Otomatik süre</span>
+          <strong>{summary.automatedMinutes} dk</strong>
         </article>
         <article>
-          <span>Step reduction</span>
+          <span>Adım azaltımı</span>
           <strong>{summary.stepReduction}%</strong>
         </article>
       </div>
 
-      <div className="metric-table" role="table" aria-label="Workflow efficiency metrics">
+      <div className="metric-table" role="table" aria-label="İş akışı verimlilik metrikleri">
         <div className="metric-row metric-head" role="row">
-          <span>Workflow</span>
-          <span>Manual</span>
-          <span>Automated</span>
-          <span>Reduction</span>
+          <span>İş akışı</span>
+          <span>Manuel</span>
+          <span>Otomatik</span>
+          <span>Azaltım</span>
         </div>
         {metrics.map((metric) => (
           <div className="metric-row" role="row" key={metric.workflowName}>
             <span>{metric.workflowName}</span>
             <span>
-              {metric.manualMinutes} min / {metric.manualSteps} steps
+              {metric.manualMinutes} dk / {metric.manualSteps} adım
             </span>
             <span>
-              {metric.automatedMinutes} min / {metric.automatedSteps} steps
+              {metric.automatedMinutes} dk / {metric.automatedSteps} adım
             </span>
             <strong>{calculateReduction(metric.manualMinutes, metric.automatedMinutes)}%</strong>
           </div>
