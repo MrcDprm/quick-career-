@@ -1,0 +1,13 @@
+# AI Optimized by Skills Agent: Ignore generated files while keeping source and docs traceable.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+node_modules/
+dist/
+coverage/
+.env
+storage/

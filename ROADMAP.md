@@ -6,8 +6,8 @@ Bu roadmap, SolveX AI Hackathon 2026 teknik sartnamesine uygun olarak Quick-Care
 
 - Kullanici bir is ilani ve CV ile baslayip optimize edilmis CV, basvuru metni ve basvuru gonderim sonucuna tek akista ulasir.
 - Manuel kariyer basvuru hazirligi adimlari en az `%50` azalir; demo hedefi `%70+` azaltimdir.
-- CV final cikti kullanici onayi olmadan uretilmez.
-- Tam otomatik basvuru gonderimi, kullanici tarafindan onaylanmis basvuru paketiyle calisir.
+- CV final cikti optimizasyon tamamlandiktan sonra kullanici onayi beklemeden uretilir.
+- Tam otomatik basvuru gonderimi, optimize edilmis basvuru paketiyle otonom calisir.
 - Plan Agent ve Skills Agent katkisi PR aciklamalari, issue notlari veya kod yorumlariyla izlenebilir olur.
 - Backend ve frontend temel testleri mock AI provider ile calisir.
 
@@ -100,29 +100,29 @@ Acceptance:
 
 ## Sprint 3 - Autonomous CV Optimization And Export
 
-Goal: Kullanici onayli CV optimizasyonunu ve cikti uretimini tamamlamak.
+Goal: Otonom CV optimizasyonunu ve otomatik cikti uretimini tamamlamak.
 
 Backend tasks:
 
 - `POST /api/resumes/{id}/optimize` endpoint'ini ekle.
-- `OptimizationRun` status akisini tanimla: `draft`, `ready_for_review`, `approved`, `exported`, `submitted`, `failed`.
+- `OptimizationRun` status akisini tanimla: `draft`, `optimizing`, `finalized`, `exported`, `submitted`, `failed`.
 - CV optimizer ile hedef ilana gore ozet, deneyim maddeleri, beceri siralamasi ve proje vurgularini yeniden yaz.
 - `GET /api/optimizations/{id}/diff` endpoint'i ile alan bazli farklari dondur.
-- `POST /api/optimizations/{id}/approve` endpoint'i ile secili degisiklikleri final hale getir.
+- `POST /api/optimizations/{id}/finalize` endpoint'i ile otonom degisiklikleri final hale getir.
 - `POST /api/optimizations/{id}/export` ile PDF, DOCX ve Markdown cikti uret.
 
 Frontend tasks:
 
 - Optimization review ekraninda once/sonra farklarini goster.
-- Degisiklikleri tek tek kabul/red veya tumunu onayla kontrollerini ekle.
+- Degisiklikleri otomasyon logu ve fark ekrani olarak goster.
 - Export center'da PDF, DOCX ve Markdown ciktilarini goster.
-- Onaylanmamis optimizasyon icin export butonlarini pasif tut.
+- Optimizasyon tamamlanmadan export durumunu beklemede goster.
 
 Acceptance:
 
-- Sistem kullanici onayi olmadan final CV ciktisi uretmez.
-- Onaylanan optimizasyon icin en az Markdown ve bir dosya formati ciktisi alinabilir.
-- Tests: optimization approval guard, mock provider response validation, export happy path.
+- Sistem kullanici onayi beklemeden final CV ciktisi uretir.
+- Finalize edilen optimizasyon icin en az Markdown ve bir dosya formati ciktisi alinabilir.
+- Tests: autonomous finalization, mock provider response validation, export happy path.
 
 ## Sprint 4 - Automatic Application, Metrics And Final Review
 
@@ -132,7 +132,7 @@ Backend tasks:
 
 - `POST /api/applications/submit` endpoint'ini ekle.
 - Application submission adapter'larini tanimla: `mock`, `email`, `platform`.
-- Onaylanmis CV, basvuru metni ve hedef bilgisi olmadan basvuru gonderimini engelle.
+- Optimize edilmis CV, basvuru metni ve hedef bilgisi olmadan basvuru gonderimini engelle.
 - Submission receipt ve hata kaydini `ApplicationSubmission` modelinde sakla.
 - `GET /api/metrics/efficiency` endpoint'i ile manuel ve otomatik efor karsilastirmasini dondur.
 - Final refactoring ve optimization taramasini yap; bulgulari PR aciklamasinda belirt.
@@ -140,16 +140,16 @@ Backend tasks:
 Frontend tasks:
 
 - Application submit ekraninda hedef, CV, cover letter ve cevap ozetini goster.
-- Son onay aksiyonundan sonra otomatik basvuru gonderimini baslat.
+- Optimizasyon ve export tamamlandiktan sonra otomatik basvuru gonderimini baslat.
 - Submission receipt, hata ve retry durumlarini goster.
 - Metrics dashboard'da sure, adim ve azaltim yuzdesini goster.
 - Demo modu icin deterministik ornek ilan, CV ve basvuru senaryosu ekle.
 
 Acceptance:
 
-- Onaylanmis paketle mock veya email adapter uzerinden basvuru gonderimi calisir.
+- Optimize edilmis paketle mock veya email adapter uzerinden basvuru gonderimi calisir.
 - Dashboard `%50+` tekrar azaltimini net sekilde raporlar.
-- Demo akisinda ilan analizi, CV optimizasyonu, onay, export ve basvuru gonderimi kesintisiz tamamlanir.
+- Demo akisinda ilan analizi, CV optimizasyonu, export ve basvuru gonderimi kesintisiz tamamlanir.
 
 ## Suggested GitHub Issues
 
@@ -162,9 +162,9 @@ Acceptance:
 | `QC-005` | Implement resume upload and parsing | Feature Developer 1 | CV text/file creates `ResumeProfile`. |
 | `QC-006` | Build match report UI | Feature Developer 2 | Score and gaps are visible. |
 | `QC-007` | Implement CV optimization diff API | Feature Developer 1 | Proposed changes are reviewable. |
-| `QC-008` | Build optimization approval UI | Feature Developer 2 | User can approve/reject changes. |
-| `QC-009` | Implement export service | Feature Developer 1 | Approved CV exports to Markdown and one file format. |
-| `QC-010` | Implement automatic application submission | Feature Developer 1 | Approved package submits via mock/email adapter. |
+| `QC-008` | Build optimization trace UI | Feature Developer 2 | User can inspect autonomous changes. |
+| `QC-009` | Implement export service | Feature Developer 1 | Optimized CV exports to Markdown and one file format. |
+| `QC-010` | Implement automatic application submission | Feature Developer 1 | Optimized package submits via mock/email adapter. |
 | `QC-011` | Build application submission UI | Feature Developer 2 | Final confirmation and receipt are visible. |
 | `QC-012` | Add efficiency metrics dashboard | Feature Developer 2 | Dashboard shows `%50+` reduction. |
 | `QC-013` | Add AI traceability records | Lead Developer | Runtime calls and PR notes are traceable. |
@@ -178,9 +178,9 @@ Backend tests:
 - `POST /api/resumes/upload` creates a structured resume profile from sample CV text.
 - `POST /api/resumes/{id}/optimize` starts an optimization with mock AI output.
 - `GET /api/optimizations/{id}/diff` returns before/after changes.
-- `POST /api/optimizations/{id}/approve` persists only approved changes.
-- Export endpoint rejects unapproved optimization runs.
-- Application submission endpoint rejects unapproved or incomplete packages.
+- `POST /api/optimizations/{id}/finalize` persists autonomous final changes.
+- Export endpoint rejects unfinished optimization runs.
+- Application submission endpoint rejects incomplete packages.
 - AI provider can be swapped between `mock` and configured real provider without service changes.
 - Efficiency metric calculation reports at least `%50` reduction for the demo baseline.
 
@@ -189,7 +189,7 @@ Frontend tests:
 - Job intake validates empty input and renders analysis result.
 - Resume upload handles long text and parsing errors.
 - Match report displays score, missing skills and improvement suggestions.
-- Optimization review supports approve/reject and disables export before approval.
+- Optimization review shows autonomous diffs and pending export state before finalization.
 - Application submit screen shows final confirmation before sending.
 - Metrics dashboard renders time, step and reduction values.
 - Long job and CV content do not overlap or overflow on desktop and mobile widths.
@@ -201,8 +201,8 @@ Demo acceptance scenario:
 3. System analyzes the job and parses the CV.
 4. System shows match score, missing keywords and suggested priorities.
 5. System generates targeted CV changes.
-6. User reviews and approves selected changes.
-7. System exports the approved CV.
+6. System finalizes selected changes autonomously and shows the diff log.
+7. System exports the optimized CV.
 8. User confirms the application package.
 9. System submits the application through the configured adapter.
 10. Dashboard shows `%50+` repetitive work reduction.
@@ -229,7 +229,7 @@ AI Traceability:
 - FastAPI backend runs locally.
 - React frontend runs locally.
 - Mock AI provider works without external API keys.
-- Job analysis, CV parsing, optimization, approval, export and application submission demo path works.
+- Job analysis, CV parsing, optimization, autonomous export and application submission demo path works.
 - Efficiency dashboard proves at least `%50` reduction.
 - GitHub Issues and PRs show role ownership and AI traceability.
 - Final review has checked code quality, security basics, UI responsiveness and demo stability.
