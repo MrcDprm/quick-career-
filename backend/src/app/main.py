@@ -3,10 +3,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.applications import router as applications_router
+from app.api.routes.autopilot import router as autopilot_router
 from app.api.routes.health import router as health_router
 from app.api.routes.jobs import router as jobs_router
 from app.api.routes.metrics import router as metrics_router
 from app.api.routes.optimizations import router as optimizations_router
+from app.api.routes.profile import router as profile_router
 from app.api.routes.resumes import router as resumes_router
 from app.core.config import settings
 
@@ -28,8 +30,10 @@ def create_app() -> FastAPI:
     app.include_router(health_router, prefix="/api")
     app.include_router(jobs_router, prefix="/api")
     app.include_router(resumes_router, prefix="/api")
+    app.include_router(profile_router, prefix="/api")
     app.include_router(optimizations_router, prefix="/api")
     app.include_router(applications_router, prefix="/api")
+    app.include_router(autopilot_router, prefix="/api")
     app.include_router(metrics_router, prefix="/api")
     return app
 

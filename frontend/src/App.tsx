@@ -1,6 +1,7 @@
 // AI Optimized by Skills Agent: App shell mirrors the roadmap workflow without implementing feature internals yet.
 import { AppShell } from "./components/AppShell";
 import { ApplicationSubmissionPanel } from "./features/application-submit";
+import { AutopilotWorkspace } from "./features/autopilot";
 import { EfficiencyDashboard } from "./features/metrics-dashboard";
 import { OptimizationReview } from "./features/optimization-review";
 import { workflowSteps } from "./types/workflowMetadata";
@@ -24,6 +25,8 @@ export function App() {
           </article>
         ))}
       </section>
+
+      <AutopilotWorkspace />
 
       <OptimizationReview />
 

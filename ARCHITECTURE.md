@@ -24,34 +24,31 @@ Bu belge SolveX AI Hackathon 2026 teknik sartnamesindeki Plan Agent ciktisidir. 
 
 ```mermaid
 flowchart LR
-    A["Job text or URL"] --> B["Job Analysis Agent"]
-    C["Resume upload"] --> D["CV Parsing / Profile Store"]
-    B --> E["Match Scoring"]
-    D --> E
-    E --> F["CV Optimization Agent"]
-    F --> G["Diff and Automation Log"]
-    G --> H["Generated Resume"]
-    G --> I["Cover Letter / Application Answers"]
-    H --> J["PDF / DOCX / Markdown Export"]
+    A["Personal profile"] --> B["Profile Store"]
+    C["LinkedIn filters or URL"] --> D["LinkedIn Job Scraper"]
+    D --> E["Filtered Job Listings"]
+    B --> F["Match Scoring"]
+    E --> F
+    F --> G["ATS CV Optimization Agent"]
+    G --> H["Generated ATS Resume"]
+    G --> I["General Application Note"]
+    H --> J["Markdown Export"]
     I --> K["Application Submission Agent"]
+    J --> K
     K --> L["Submission Receipt / Trace Log"]
-    E --> M["Efficiency Metrics"]
-    F --> M
-    K --> M
+    F --> M["Efficiency Metrics"]
 ```
 
 Ana akis:
 
-1. Kullanici ilan metni girer veya ilan URL'si ekler.
-2. Backend URL verilirse web scraping ile ilan metnini ceker, normalize eder ve `Job Analysis Agent` ile rol, beceri, deneyim, anahtar kelime ve eleme kriterlerini cikarir.
-3. Kullanici CV yukler ve genel bilgilendirme metni verir; `CV Parsing / Profile Store` CV'yi yapilandirilmis `ResumeProfile` modeline cevirir.
-4. `Match Scoring` ilana gore beceri eslesmesi, eksik kriterler ve guclu alanlari skorlar.
-5. `CV Optimization Agent` CV ozetini, deneyim maddelerini, beceri siralamasini ve proje vurgularini hedef ilana gore ATS uyumlu Markdown CV olarak yeniden yazar.
-6. Frontend kullaniciya satir/saha bazli fark ve otomasyon log ekranini sunar.
-7. Sistem degisiklikleri otonom olarak final hale getirir.
-8. Sistem PDF, DOCX ve Markdown cikti uretir.
-9. `Application Submission Agent` form/email/platform adapter'i ile basvuruyu otomatik gonderir.
-10. `AITraceLog` ve `EfficiencyMetric` kayitlari demo dashboard'unda gosterilir.
+1. Kullanici kisisel bilgilerini, egitimlerini, sertifikalarini, yeteneklerini, deneyimlerini, projelerini, dillerini ve genel bilgilendirmesini kaydeder.
+2. Kullanici LinkedIn filtrelerini veya public LinkedIn jobs arama URL'sini verir.
+3. Backend public LinkedIn aramasini scrape eder; LinkedIn login/blok durumunda demo-safe fallback ilanlariyla akis kesilmez.
+4. Ilanlar profil yetenekleriyle eslestirilir, filtrelenir ve uygunluk skoruna gore siralanir.
+5. Her uygun ilan icin profilin tum verilerinden ATS uyumlu Markdown CV uretilir.
+6. Her ilan icin genel basvuru bilgilendirme notu hazirlanir.
+7. `Application Submission Agent` her basvuru paketini sirayla mock/email/platform adapter'iyle gonderir.
+8. Basvuru receipt'leri, otomasyon loglari ve `EfficiencyMetric` kayitlari demo dashboard'unda gosterilir.
 
 ## Technology Stack
 
@@ -120,11 +117,14 @@ backend/
 | --- | --- |
 | `JobAnalysisService` | Converts raw job text or URL content into structured requirements. |
 | `JobScraperService` | Fetches public job URLs and extracts visible posting text for analysis. |
+| `LinkedInJobSearchService` | Builds LinkedIn search URLs, scrapes public job pages and filters listings against saved profile skills. |
+| `CandidateProfileService` | Stores personal info, education, certifications, skills, experience, projects and languages. |
 | `ResumeParserService` | Extracts candidate profile data from uploaded CV files or pasted text. |
 | `MatchScoringService` | Scores job-resume fit and produces explainable gaps. |
 | `CVOptimizerService` | Produces targeted resume edits, highlighted skills, general application note and ATS-friendly CV Markdown. |
 | `DocumentExportService` | Generates PDF, DOCX and Markdown outputs after autonomous optimization. |
 | `ApplicationSubmissionService` | Submits optimized application packages through adapters. |
+| `AutopilotApplicationService` | Runs profile save, LinkedIn filtering, ATS CV generation and sequential applications end to end. |
 | `AITraceabilityService` | Records prompt purpose, provider, model, input hashes and output summary. |
 | `EfficiencyMetricsService` | Calculates manual-vs-automated effort reduction. |
 
@@ -218,6 +218,9 @@ Frontend requirements:
 | --- | --- | --- |
 | `POST` | `/api/jobs/analyze` | Analyze a job post from pasted text or scraped URL. |
 | `GET` | `/api/jobs/{id}` | Fetch job and analysis details. |
+| `POST` | `/api/profile/` | Save personal profile, education, certificates, skills, experience and projects. |
+| `GET` | `/api/profile/latest` | Fetch the latest saved candidate profile. |
+| `POST` | `/api/autopilot/apply` | Run the full LinkedIn-filtered ATS CV and application workflow. |
 | `POST` | `/api/resumes/upload` | Upload or paste CV content and parse profile. |
 | `GET` | `/api/resumes/{id}` | Fetch parsed resume profile. |
 | `POST` | `/api/resumes/{id}/optimize` | Start optimization using job keywords, CV text and candidate general briefing. |

@@ -12,6 +12,9 @@ AI Optimized by Skills Agent: Final review summary for the autonomous scraping a
 
 - Job posts can be analyzed from pasted text.
 - Job posts can be scraped from public HTTP(S) URLs before analysis.
+- Candidate personal info, education, certifications, skills, experience, projects and languages can be saved as a reusable profile.
+- LinkedIn-style public job search can be scraped or safely fallback to deterministic demo listings when LinkedIn blocks unauthenticated access.
+- Filtered jobs are ranked against saved profile skills.
 - Candidate CV text can be parsed into a structured profile.
 - Candidate general briefing can be passed into optimization.
 - Optimization highlights job-relevant skills and generates:
@@ -21,11 +24,12 @@ AI Optimized by Skills Agent: Final review summary for the autonomous scraping a
   - general application note.
 - Export can prefer the generated ATS Markdown as the final CV content.
 - Automatic submission can submit complete optimized packages through configured adapters.
-- Frontend now renders the workflow shell, optimization trace, generated ATS preview, application submission panel and efficiency dashboard.
+- Autopilot workflow runs profile save, LinkedIn filtering, ATS CV generation, export and sequential submission in one endpoint.
+- Frontend now renders the workflow shell, profile/autopilot workspace, optimization trace, generated ATS preview, application submission panel and efficiency dashboard.
 
 ## Verification
 
-- Backend tests: `24 passed`.
+- Backend tests: `27 passed`.
 - Frontend build: `npm run build` passed.
 - Python syntax compile passed for `backend/src` and `tests`.
 
