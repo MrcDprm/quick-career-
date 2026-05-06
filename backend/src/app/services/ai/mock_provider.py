@@ -14,8 +14,17 @@ def _schema_payload(schema_name: str, user_payload: dict[str, Any]) -> dict[str,
     payloads: dict[str, dict[str, Any]] = {
         "JobAnalysisSummary": {
             "title": "Backend Developer",
+            "role": "Backend Developer",
+            "seniority": "Mid-level",
             "required_skills": ["Python", "FastAPI", "PostgreSQL"],
+            "preferred_skills": ["React", "Docker"],
             "keywords": ["api", "automation", "backend"],
+            "responsibilities": [
+                "Build API endpoints",
+                "Validate structured AI outputs",
+                "Collaborate on autonomous application workflows",
+            ],
+            "red_flags": ["Requires production API ownership"],
         },
         "ResumeProfileSummary": {
             "owner_name": user_payload.get("owner_name", "Demo Candidate"),
