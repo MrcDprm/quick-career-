@@ -1,2 +1,2 @@
-// AI Optimized by Skills Agent: Feature placeholder for autonomous optimization diff log UI.
-export const optimizationReviewFeature = "optimization-review";
+// AI Optimized by Skills Agent: Exports the autonomous optimization trace screen.
+export { OptimizationReview } from "./OptimizationReview";
