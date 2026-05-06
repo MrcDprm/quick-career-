@@ -1,6 +1,6 @@
 # Quick-Career Architecture
 
-Quick-Career, is ilanlarini analiz eden, aday CV'sini hedef ilana gore otonom optimize eden ve kullanici onayindan sonra basvuru surecini otomatiklestiren FastAPI + React tabanli bir hackathon MVP'sidir. Projenin ana basari kriteri, is arama ve basvuru hazirligi icin tekrar eden manuel adimlari en az `%50` azaltmaktir.
+Quick-Career, is ilanlarini analiz eden, aday CV'sini hedef ilana gore otonom optimize eden, final cikti ureten ve basvuru surecini kullanici onayi beklemeden otomatiklestiren FastAPI + React tabanli bir hackathon MVP'sidir. Projenin ana basari kriteri, is arama ve basvuru hazirligi icin tekrar eden manuel adimlari en az `%50` azaltmaktir.
 
 Bu belge SolveX AI Hackathon 2026 teknik sartnamesindeki Plan Agent ciktisidir. Gelistirme boyunca `ROADMAP.md`, GitHub Issues, PR aciklamalari ve kod yorumlari ile izlenebilirlik saglanir.
 
@@ -9,14 +9,14 @@ Bu belge SolveX AI Hackathon 2026 teknik sartnamesindeki Plan Agent ciktisidir. 
 - Is ilanindan rol, seviye, yetkinlik, anahtar kelime, sorumluluk ve eleme kriterlerini cikarmak.
 - CV'yi parse ederek aday profili, deneyim, beceri, proje ve olculebilir basari alanlarini standart modele donusturmek.
 - Ilan ile CV arasindaki uyumu skorlamak ve eksikleri aciklamak.
-- Kullanici onayli otonomi ile CV'yi hedef ilana gore yeniden yazmak, farklari gostermek ve onay sonrasi cikti uretmek.
-- Onaylanmis CV ve basvuru metni ile tam otomatik basvuru gonderimi akisini desteklemek.
+- Otonom optimizasyon ile CV'yi hedef ilana gore yeniden yazmak, farklari kaydetmek ve final ciktiyi otomatik uretmek.
+- Optimize edilmis CV ve basvuru metni ile tam otomatik basvuru gonderimi akisini desteklemek.
 - Manuel sure, tiklama sayisi ve tekrar eden kopyala/yapistir adimlarini olcerek `%50+` is azaltimini gostermek.
 
 ## Non-Goals For MVP
 
 - Tum kariyer platformlarinda genel amacli scraping yapmak.
-- Kullanici onayi olmadan CV metnini kalici final cikti olarak kaydetmek.
+- Kullanicidan her adimda manuel onay bekleyen yari-otomatik basvuru akisi kurmak.
 - Basvuru platformlarinin kullanim sartlarini asan veya kullanici kimligi disinda islem yapan gizli otomasyonlar kurmak.
 - Kurumsal ATS entegrasyonlarini MVP'nin zorunlu parcasi yapmak.
 
@@ -29,7 +29,7 @@ flowchart LR
     B --> E["Match Scoring"]
     D --> E
     E --> F["CV Optimization Agent"]
-    F --> G["Diff and Approval UI"]
+    F --> G["Diff and Automation Log"]
     G --> H["Generated Resume"]
     G --> I["Cover Letter / Application Answers"]
     H --> J["PDF / DOCX / Markdown Export"]
@@ -47,10 +47,10 @@ Ana akis:
 3. Kullanici CV yukler; `CV Parsing / Profile Store` CV'yi yapilandirilmis `ResumeProfile` modeline cevirir.
 4. `Match Scoring` ilana gore beceri eslesmesi, eksik kriterler ve guclu alanlari skorlar.
 5. `CV Optimization Agent` CV ozetini, deneyim maddelerini, beceri siralamasini ve proje vurgularini hedef ilana gore yeniden yazar.
-6. Frontend kullaniciya satir/saha bazli fark ekranini sunar.
-7. Kullanici degisiklikleri onaylar veya reddeder.
-8. Onay sonrasi sistem PDF, DOCX ve Markdown cikti uretir.
-9. Kullanici acik basvuru onayi verdiyse `Application Submission Agent` form/email/platform adapter'i ile basvuruyu gonderir.
+6. Frontend kullaniciya satir/saha bazli fark ve otomasyon log ekranini sunar.
+7. Sistem degisiklikleri otonom olarak final hale getirir.
+8. Sistem PDF, DOCX ve Markdown cikti uretir.
+9. `Application Submission Agent` form/email/platform adapter'i ile basvuruyu otomatik gonderir.
 10. `AITraceLog` ve `EfficiencyMetric` kayitlari demo dashboard'unda gosterilir.
 
 ## Technology Stack
@@ -122,8 +122,8 @@ backend/
 | `ResumeParserService` | Extracts candidate profile data from uploaded CV files or pasted text. |
 | `MatchScoringService` | Scores job-resume fit and produces explainable gaps. |
 | `CVOptimizerService` | Produces targeted resume edits, rewritten bullets and keyword alignment. |
-| `DocumentExportService` | Generates PDF, DOCX and Markdown outputs after approval. |
-| `ApplicationSubmissionService` | Submits approved application packages through adapters. |
+| `DocumentExportService` | Generates PDF, DOCX and Markdown outputs after autonomous optimization. |
+| `ApplicationSubmissionService` | Submits optimized application packages through adapters. |
 | `AITraceabilityService` | Records prompt purpose, provider, model, input hashes and output summary. |
 | `EfficiencyMetricsService` | Calculates manual-vs-automated effort reduction. |
 
@@ -185,8 +185,8 @@ frontend/
 | Job Intake | Paste job text or submit URL. Shows extracted role, level, skills and keywords. |
 | Resume Intake | Upload CV or paste resume text. Shows parsed profile quality warnings. |
 | Match Report | Displays score, missing requirements, strong matches and suggested priorities. |
-| Optimization Review | Shows AI-proposed CV changes with approve/reject controls. |
-| Export Center | Downloads approved CV as PDF, DOCX or Markdown. |
+| Optimization Review | Shows AI-applied CV changes and automation trace details. |
+| Export Center | Downloads optimized CV as PDF, DOCX or Markdown. |
 | Application Submit | Confirms final package and triggers automatic submission adapter. |
 | Efficiency Dashboard | Shows time, steps and repetitive work reduction against baseline. |
 
@@ -194,7 +194,7 @@ Frontend requirements:
 
 - Long job descriptions and CV sections must wrap cleanly without overlapping.
 - Every AI-running state needs loading, retry and failure UI.
-- Optimization changes must be inspectable before approval.
+- Optimization changes must be inspectable after autonomous generation.
 - Application submission must show the exact target, payload summary and final confirmation.
 - Demo mode can use deterministic mock data for reliable judging.
 
@@ -205,8 +205,8 @@ Frontend requirements:
 | `JobPost` | `id`, `source_type`, `source_url`, `raw_text`, `company`, `title`, `created_at` | Stores original job input. |
 | `JobAnalysis` | `job_post_id`, `role`, `seniority`, `required_skills`, `preferred_skills`, `keywords`, `responsibilities`, `red_flags` | AI-generated structured analysis. |
 | `ResumeProfile` | `id`, `owner_name`, `raw_text`, `summary`, `experiences`, `education`, `skills`, `projects`, `languages` | Parsed candidate profile. |
-| `OptimizationRun` | `id`, `job_post_id`, `resume_profile_id`, `status`, `match_score_before`, `match_score_after`, `approved_at` | Tracks one optimization attempt. |
-| `GeneratedResume` | `optimization_run_id`, `format`, `content`, `file_url`, `version`, `is_final` | Final output is only created after approval. |
+| `OptimizationRun` | `id`, `job_post_id`, `resume_profile_id`, `status`, `match_score_before`, `match_score_after`, `completed_at` | Tracks one autonomous optimization attempt. |
+| `GeneratedResume` | `optimization_run_id`, `format`, `content`, `file_url`, `version`, `is_final` | Final output is created automatically after optimization. |
 | `ApplicationSubmission` | `optimization_run_id`, `target`, `status`, `submitted_at`, `receipt`, `error_message` | Records automatic submission attempts. |
 | `AITraceLog` | `agent_type`, `provider`, `model`, `prompt_version`, `input_hash`, `output_hash`, `summary`, `created_at` | Supports hackathon traceability. |
 | `EfficiencyMetric` | `workflow_name`, `manual_steps`, `automated_steps`, `manual_minutes`, `automated_minutes`, `reduction_percent` | Proves `%50+` reduction. |
@@ -222,21 +222,22 @@ Frontend requirements:
 | `POST` | `/api/resumes/{id}/optimize` | Start optimization for a selected job. |
 | `GET` | `/api/optimizations/{id}` | Fetch optimization status and scores. |
 | `GET` | `/api/optimizations/{id}/diff` | Fetch proposed CV changes for review. |
-| `POST` | `/api/optimizations/{id}/approve` | Approve selected changes and generate final outputs. |
+| `POST` | `/api/optimizations/{id}/finalize` | Finalize autonomous changes and generate final outputs. |
 | `POST` | `/api/optimizations/{id}/export` | Generate or refresh PDF, DOCX or Markdown output. |
-| `POST` | `/api/applications/submit` | Submit an approved application package. |
+| `POST` | `/api/applications/submit` | Submit an optimized application package. |
 | `GET` | `/api/applications/{id}` | Fetch submission status and receipt. |
 | `GET` | `/api/metrics/efficiency` | Return manual-vs-automated reduction metrics. |
 | `GET` | `/api/trace/{optimization_run_id}` | Show AI traceability records for demo/review. |
 
-## Approval And Automation Gates
+## Autonomous Automation Policy
 
-Quick-Career uses two explicit gates:
+Quick-Career uses autonomous execution with traceable safety controls:
 
-1. CV approval gate: AI can propose edits automatically, but final CV files are created only after user approval.
-2. Application approval gate: automatic submission runs only after the user confirms the target, generated CV, cover letter and answers.
+1. CV finalization: AI optimizes the CV and creates final export files without waiting for manual approval.
+2. Application submission: the system submits the generated package automatically through the configured adapter.
+3. Traceability: every autonomous step records inputs, outputs, status and provider metadata through `AITraceLog`.
 
-This keeps the workflow autonomous after consent while preserving user control over career-critical content.
+This maximizes repetitive-work reduction while keeping the automation observable, testable and reversible through logs and generated artifacts.
 
 ## Security, Privacy And Compliance
 
@@ -244,8 +245,8 @@ This keeps the workflow autonomous after consent while preserving user control o
 - Store uploaded files in a controlled object/file storage path with generated IDs.
 - Hash AI inputs and outputs for traceability instead of exposing full private text in logs.
 - Secrets such as AI API keys and email credentials must live in environment variables.
-- Application submission adapters must respect platform limits, rate limits and explicit user consent.
-- Demo mode should prefer sandbox, email draft or mock submission adapter unless the target platform is approved.
+- Application submission adapters must respect platform limits and rate limits.
+- Demo mode should prefer sandbox, email draft or mock submission adapter unless a target platform adapter is explicitly configured.
 
 ## Efficiency Measurement
 
@@ -256,7 +257,7 @@ The dashboard compares a manual baseline with the AI-assisted flow.
 | Read and summarize job post | 10 minutes / 8 steps | 1 minute / 1 step |
 | Identify missing CV keywords | 15 minutes / 10 steps | 2 minutes / 2 steps |
 | Rewrite CV bullets | 30 minutes / 20 steps | 8 minutes / review-only |
-| Prepare cover letter / answers | 20 minutes / 12 steps | 4 minutes / approval-only |
+| Prepare cover letter / answers | 20 minutes / 12 steps | 2 minutes / autonomous generation |
 | Submit application package | 10 minutes / 8 steps | 2 minutes / confirmation-only |
 
 Formula:
@@ -308,7 +309,7 @@ APPLICATION_SUBMISSION_MODE=mock|email|platform
 
 ## Definition Of Done
 
-- Job analysis, resume parsing, CV optimization, approval, export, application submission and metrics are represented in API contracts.
+- Job analysis, resume parsing, CV optimization, autonomous export, application submission and metrics are represented in API contracts.
 - React views cover the full demo path.
 - Mock AI provider enables tests without paid API calls.
 - Metrics prove `%50+` repetitive work reduction.

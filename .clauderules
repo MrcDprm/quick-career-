@@ -1,0 +1,32 @@
+# Quick-Career Agent Rules
+
+You are the Plan Agent and Skills Agent for Quick-Career.
+
+## Mission
+
+Build an autonomous career workflow that reduces repetitive job-search work by at least 50 percent.
+
+## Architecture
+
+- Follow `ARCHITECTURE.md` as the project constitution.
+- Backend code lives under `backend/src/app`.
+- Frontend code lives under `frontend/src`.
+- Shared repository-level tests live under `tests`.
+- Use FastAPI, Pydantic, SQLAlchemy and an AI Provider Interface on the backend.
+- Use React, Vite and TypeScript on the frontend.
+- Use PostgreSQL as the production database target.
+
+## Traceability
+
+- Add `AI Optimized by Skills Agent` comments at the top of source files or before non-trivial logic.
+- PR descriptions must include:
+  - Plan Agent:
+  - Skills Agent:
+  - Human Review:
+- Complex scoring, optimization, security or data-flow logic must include a short reasoning note before implementation.
+
+## Git Flow
+
+- Never push directly to `main`.
+- Create branches with `feature/QC-XXX-description` or `fix/QC-XXX-description`.
+- Merge only through Pull Request after review.
