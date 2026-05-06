@@ -42,15 +42,15 @@ class ApplicationSubmissionService:
     # AI Optimized by Skills Agent: Guards automation quality without adding a manual consent checkpoint.
     def _validate_package(self, request: ApplicationSubmissionRequest) -> None:
         if not request.resume_file_name.strip():
-            raise ApplicationSubmissionError("Resume file name is required for submission.")
+            raise ApplicationSubmissionError("Başvuru için CV dosya adı zorunludur.")
         if not request.cover_letter.strip():
-            raise ApplicationSubmissionError("Cover letter is required for submission.")
+            raise ApplicationSubmissionError("Başvuru için genel bilgilendirme notu zorunludur.")
         if request.mode == SubmissionMode.EMAIL and not request.candidate_email:
-            raise ApplicationSubmissionError("Candidate email is required for email submission mode.")
+            raise ApplicationSubmissionError("E-posta başvuru modu için aday e-postası zorunludur.")
 
     # AI Optimized by Skills Agent: Deterministic receipt supports tests and hackathon demo reliability.
     def _create_receipt(self, submission_id: UUID, request: ApplicationSubmissionRequest) -> str:
         return (
-            f"QC-SUB-{str(submission_id)[:8]} submitted to {request.target} "
-            f"via {request.mode.value} adapter."
+            f"QC-SUB-{str(submission_id)[:8]} {request.target} hedefine "
+            f"{request.mode.value} adaptörüyle gönderildi."
         )

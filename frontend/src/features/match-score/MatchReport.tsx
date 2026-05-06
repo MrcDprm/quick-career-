@@ -19,14 +19,14 @@ type MatchReportProps = {
 // AI Optimized by Skills Agent: Keeps scoring display readable while backend scoring evolves independently.
 function getScoreLabel(score: number) {
   if (score >= 80) {
-    return "Strong match";
+    return "Güçlü eşleşme";
   }
 
   if (score >= 55) {
-    return "Promising match";
+    return "Umut vadeden eşleşme";
   }
 
-  return "Needs targeting";
+  return "Hedefleme gerekiyor";
 }
 
 // AI Optimized by Skills Agent: Reusable list section prevents repeated markup across gaps and strengths.
@@ -46,7 +46,7 @@ function InsightList({ title, items }: { title: string; items: string[] }) {
 // AI Optimized by Skills Agent: Feature-complete state handling covers loading, error and populated reports.
 export function MatchReport({ report, isLoading = false, errorMessage, onRetry }: MatchReportProps) {
   if (isLoading) {
-    return <section className="match-report status">Analyzing job and CV fit...</section>;
+    return <section className="match-report status">İlan ve CV uyumu analiz ediliyor...</section>;
   }
 
   if (errorMessage) {
@@ -55,7 +55,7 @@ export function MatchReport({ report, isLoading = false, errorMessage, onRetry }
         <p>{errorMessage}</p>
         {onRetry ? (
           <button type="button" onClick={onRetry}>
-            Retry
+            Tekrar dene
           </button>
         ) : null}
       </section>
@@ -63,22 +63,22 @@ export function MatchReport({ report, isLoading = false, errorMessage, onRetry }
   }
 
   return (
-    <section className="match-report" aria-label="Match report">
+    <section className="match-report" aria-label="Eşleşme raporu">
       <header className="match-summary">
         <div>
-          <p className="match-eyebrow">Target role</p>
+          <p className="match-eyebrow">Hedef rol</p>
           <h2>{report.role}</h2>
         </div>
-        <div className="score-card" aria-label={`Match score ${report.score} percent`}>
+        <div className="score-card" aria-label={`Eşleşme skoru yüzde ${report.score}`}>
           <strong>{report.score}%</strong>
           <span>{getScoreLabel(report.score)}</span>
         </div>
       </header>
 
       <div className="match-grid">
-        <InsightList title="Strong matches" items={report.strongMatches} />
-        <InsightList title="Missing skills" items={report.missingSkills} />
-        <InsightList title="Optimization priorities" items={report.priorities} />
+        <InsightList title="Güçlü eşleşmeler" items={report.strongMatches} />
+        <InsightList title="Eksik yetenekler" items={report.missingSkills} />
+        <InsightList title="Optimizasyon öncelikleri" items={report.priorities} />
       </div>
     </section>
   );

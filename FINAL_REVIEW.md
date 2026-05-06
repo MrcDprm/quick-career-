@@ -13,8 +13,8 @@ AI Optimized by Skills Agent: Final review summary for the autonomous scraping a
 - Job posts can be analyzed from pasted text.
 - Job posts can be scraped from public HTTP(S) URLs before analysis.
 - Candidate personal info, education, certifications, skills, experience, projects and languages can be saved as a reusable profile.
-- LinkedIn-style public job search can be scraped or safely fallback to deterministic demo listings when LinkedIn blocks unauthenticated access.
-- Filtered jobs are ranked against saved profile skills.
+- LinkedIn public Easy Apply job search is scraped through the guest endpoint without deterministic demo-job fallback.
+- Filtered Easy Apply jobs are enriched with real posting detail text and ranked against saved profile skills.
 - Candidate CV text can be parsed into a structured profile.
 - Candidate general briefing can be passed into optimization.
 - Optimization highlights job-relevant skills and generates:
@@ -25,7 +25,7 @@ AI Optimized by Skills Agent: Final review summary for the autonomous scraping a
 - Export can prefer the generated ATS Markdown as the final CV content.
 - Automatic submission can submit complete optimized packages through configured adapters.
 - Autopilot workflow runs profile save, LinkedIn filtering, ATS CV generation, export and sequential submission in one endpoint.
-- Frontend now renders the workflow shell, profile/autopilot workspace, optimization trace, generated ATS preview, application submission panel and efficiency dashboard.
+- Frontend now renders the workflow shell, Turkish profile/autopilot workspace, optimization trace, generated ATS preview, application submission panel and efficiency dashboard.
 
 ## Verification
 
@@ -36,5 +36,5 @@ AI Optimized by Skills Agent: Final review summary for the autonomous scraping a
 ## Remaining Operational Notes
 
 - Production persistence is still in-memory for hackathon speed; PostgreSQL models/migrations should replace it after MVP validation.
-- Web scraping intentionally supports only public `http` and `https` job URLs and extracts visible text from common semantic tags.
+- Web scraping intentionally supports only public `http` and `https` job URLs plus LinkedIn public Easy Apply guest results; blocked or empty LinkedIn responses return a clear API error instead of fake listings.
 - Real platform submission adapters should be reviewed against each platform's terms before production use.

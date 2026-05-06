@@ -1,4 +1,4 @@
-// AI Optimized by Skills Agent: Autonomous trace UI focuses on inspection, not manual approval gates.
+// AI Optimized by Skills Agent: Otonom optimizasyon izleme ekranı manuel onay kapısı olmadan inceleme sağlar.
 import { useMemo, useState } from "react";
 
 import {
@@ -8,61 +8,72 @@ import {
 } from "../../api/optimizations";
 
 const demoRequest: OptimizationRequest = {
-  target_role: "Backend Developer",
+  target_role: "Backend Geliştirici",
   resume_text:
-    "Software developer with Python and SQL experience. Built internal tools and supported React dashboards for operational teams.",
-  job_keywords: ["Python", "FastAPI", "PostgreSQL", "automation", "API ownership"],
+    "Python ve SQL deneyimine sahip yazılım geliştirici. Operasyon ekipleri için dahili araçlar ve React panoları geliştirdi.",
+  job_keywords: ["Python", "FastAPI", "PostgreSQL", "otomasyon", "API sahipliği"],
   candidate_brief:
-    "The candidate wants to emphasize API ownership, workflow automation and clear stakeholder communication.",
-  candidate_name: "Demo Candidate",
+    "Aday API sahipliği, iş akışı otomasyonu ve net paydaş iletişimini öne çıkarmak istiyor.",
+  candidate_name: "Demo Aday",
 };
 
 const demoRun: OptimizationRunResponse = {
   id: "demo-finalized-run",
   status: "finalized",
-  target_role: "Backend Developer",
+  target_role: "Backend Geliştirici",
   match_score_before: 58,
   match_score_after: 84,
   diff: [
     {
       section: "summary",
       before:
-        "Software developer with Python and SQL experience. Built internal tools and supported React dashboards.",
+        "Python ve SQL deneyimine sahip yazılım geliştirici. Dahili araçlar ve React panoları geliştirdi.",
       after:
-        "Backend Developer candidate focused on Python, FastAPI, PostgreSQL and workflow automation with measurable API delivery.",
-      reason: "Aligns the opening profile with target role language and high-value backend keywords.",
+        "Python, FastAPI, PostgreSQL ve iş akışı otomasyonu odağında ölçülebilir API teslimatı yapan backend geliştirici.",
+      reason: "Açılış profilini hedef rol dili ve yüksek değerli backend anahtar kelimeleriyle hizalar.",
     },
     {
       section: "skills",
-      before: "Python, SQL, React, internal tools",
-      after: "Python, FastAPI, PostgreSQL, API ownership, automation, React",
-      reason: "Moves job-critical keywords into the most visible skills area.",
+      before: "Python, SQL, React, dahili araçlar",
+      after: "Python, FastAPI, PostgreSQL, API sahipliği, otomasyon, React",
+      reason: "İlan açısından kritik anahtar kelimeleri en görünür yetenek alanına taşır.",
     },
     {
       section: "experience",
-      before: "Built internal tools and helped teams with dashboards.",
+      before: "Dahili araçlar geliştirdi ve ekiplere panolarda destek oldu.",
       after:
-        "Delivered API automation workflows that reduced repeated handoffs and improved operational visibility.",
-      reason: "Rewrites generic responsibilities as outcome-oriented evidence.",
+        "Tekrarlanan devir teslimleri azaltan ve operasyon görünürlüğünü artıran API otomasyon iş akışları geliştirdi.",
+      reason: "Genel sorumlulukları sonuç odaklı kanıta dönüştürür.",
     },
   ],
-  highlighted_skills: ["Python", "FastAPI", "PostgreSQL", "automation", "API ownership"],
+  highlighted_skills: ["Python", "FastAPI", "PostgreSQL", "otomasyon", "API sahipliği"],
   ats_resume_markdown:
-    "# Demo Candidate\n\n## Target Role\nBackend Developer\n\n## Professional Summary\nBackend Developer profile tailored to the job posting.\n\n## Core Skills\n- Python\n- FastAPI\n- PostgreSQL\n- automation\n- API ownership\n",
+    "# Demo Aday\n\n## Hedef Rol\nBackend Geliştirici\n\n## Profesyonel Özet\nBackend Geliştirici profili hedef ilana göre uyarlandı.\n\n## Temel Yetenekler\n- Python\n- FastAPI\n- PostgreSQL\n- otomasyon\n- API sahipliği\n",
   application_brief:
-    "General application note: the candidate's strongest aligned skills are Python, FastAPI, PostgreSQL, automation and API ownership.",
+    "Genel bilgilendirme: adayın ilanla en güçlü eşleşen yetenekleri Python, FastAPI, PostgreSQL, otomasyon ve API sahipliği.",
 };
 
+// AI Optimized by Skills Agent: API durumlarını Türkçe ve jüri tarafından okunabilir etiketlere çevirir.
 function statusLabel(status: OptimizationRunResponse["status"]) {
   const labels: Record<OptimizationRunResponse["status"], string> = {
-    draft: "Draft",
-    optimizing: "Optimizing",
-    finalized: "Finalized",
-    exported: "Exported",
-    submitted: "Submitted",
-    failed: "Failed",
+    draft: "Taslak",
+    optimizing: "Optimize ediliyor",
+    finalized: "Tamamlandı",
+    exported: "Çıktı alındı",
+    submitted: "Gönderildi",
+    failed: "Başarısız",
   };
   return labels[status];
+}
+
+// AI Optimized by Skills Agent: Diff bölüm adlarını Türkçeleştirir.
+function sectionLabel(section: string) {
+  const labels: Record<string, string> = {
+    summary: "Özet",
+    skills: "Yetenekler",
+    experience: "Deneyim",
+  };
+  return labels[section] ?? section;
 }
 
 export function OptimizationReview() {
@@ -71,7 +82,10 @@ export function OptimizationReview() {
   const [error, setError] = useState<string | null>(null);
 
   const scoreGain = run.match_score_after - run.match_score_before;
-  const optimizedSections = useMemo(() => run.diff.map((item) => item.section).join(", "), [run.diff]);
+  const optimizedSections = useMemo(
+    () => run.diff.map((item) => sectionLabel(item.section)).join(", "),
+    [run.diff],
+  );
 
   async function handleRunOptimization() {
     setIsLoading(true);
@@ -81,7 +95,7 @@ export function OptimizationReview() {
       const nextRun = await createOptimization(demoRequest);
       setRun(nextRun);
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "Optimization request failed.");
+      setError(requestError instanceof Error ? requestError.message : "Optimizasyon isteği başarısız oldu.");
     } finally {
       setIsLoading(false);
     }
@@ -92,38 +106,36 @@ export function OptimizationReview() {
       <section className="page-header">
         <div>
           <p className="eyebrow">QC-008</p>
-          <h1>Optimization Trace</h1>
-          <p>
-            Autonomous CV rewrite completed for a backend role with inspectable field-level changes.
-          </p>
+          <h1>Optimizasyon İz Kaydı</h1>
+          <p>Backend rolü için otonom CV yeniden yazımı, alan bazlı değişikliklerle birlikte tamamlandı.</p>
         </div>
         <button className="primary-action" disabled={isLoading} onClick={handleRunOptimization}>
-          {isLoading ? "Running" : "Run"}
+          {isLoading ? "Çalışıyor" : "Çalıştır"}
         </button>
       </section>
 
-      <section className="score-strip" aria-label="Optimization score summary">
+      <section className="score-strip" aria-label="Optimizasyon skor özeti">
         <div>
-          <span>Status</span>
+          <span>Durum</span>
           <strong>{statusLabel(run.status)}</strong>
         </div>
         <div>
-          <span>Before</span>
+          <span>Önce</span>
           <strong>{run.match_score_before}</strong>
         </div>
         <div>
-          <span>After</span>
+          <span>Sonra</span>
           <strong>{run.match_score_after}</strong>
         </div>
         <div>
-          <span>Gain</span>
+          <span>Kazanım</span>
           <strong>+{scoreGain}</strong>
         </div>
       </section>
 
       {error ? (
         <section className="alert" role="alert">
-          <strong>API unavailable</strong>
+          <strong>API'ye ulaşılamadı</strong>
           <span>{error}</span>
         </section>
       ) : null}
@@ -131,24 +143,24 @@ export function OptimizationReview() {
       <div className="review-layout">
         <section className="diff-section" aria-labelledby="diff-heading">
           <div className="section-heading">
-            <p className="eyebrow">Diff</p>
-            <h2 id="diff-heading">Applied Changes</h2>
+            <p className="eyebrow">Fark</p>
+            <h2 id="diff-heading">Uygulanan Değişiklikler</h2>
           </div>
 
           <div className="diff-list">
             {run.diff.map((item) => (
               <article className="diff-card" key={item.section}>
                 <header>
-                  <span>{item.section}</span>
+                  <span>{sectionLabel(item.section)}</span>
                   <p>{item.reason}</p>
                 </header>
                 <div className="diff-columns">
                   <div>
-                    <h3>Before</h3>
+                    <h3>Önce</h3>
                     <p>{item.before}</p>
                   </div>
                   <div>
-                    <h3>After</h3>
+                    <h3>Sonra</h3>
                     <p>{item.after}</p>
                   </div>
                 </div>
@@ -157,65 +169,65 @@ export function OptimizationReview() {
           </div>
         </section>
 
-        <aside className="trace-panel" aria-label="Automation trace">
+        <aside className="trace-panel" aria-label="Otomasyon iz kaydı">
           <section>
-            <p className="eyebrow">Trace</p>
-            <h2>Automation Log</h2>
+            <p className="eyebrow">İz</p>
+            <h2>Otomasyon Günlüğü</h2>
             <ol className="trace-list">
               <li>
                 <span>1</span>
-                <p>Job keywords loaded</p>
+                <p>İlan anahtar kelimeleri yüklendi</p>
               </li>
               <li>
                 <span>2</span>
-                <p>Resume profile matched</p>
+                <p>CV profili eşleştirildi</p>
               </li>
               <li>
                 <span>3</span>
-                <p>Diff generated</p>
+                <p>Fark kaydı üretildi</p>
               </li>
               <li>
                 <span>4</span>
-                <p>Run finalized</p>
+                <p>Çalışma tamamlandı</p>
               </li>
             </ol>
           </section>
 
           <section>
-            <p className="eyebrow">Package</p>
-            <h2>Export Readiness</h2>
+            <p className="eyebrow">Paket</p>
+            <h2>Çıktı Hazırlığı</h2>
             <dl className="package-summary">
               <div>
-                <dt>Run</dt>
+                <dt>Çalışma</dt>
                 <dd>{run.id}</dd>
               </div>
               <div>
-                <dt>Role</dt>
+                <dt>Rol</dt>
                 <dd>{run.target_role}</dd>
               </div>
               <div>
-                <dt>Sections</dt>
+                <dt>Bölümler</dt>
                 <dd>{optimizedSections}</dd>
               </div>
               <div>
-                <dt>Highlighted skills</dt>
+                <dt>Öne çıkan yetenekler</dt>
                 <dd>{run.highlighted_skills.join(", ")}</dd>
               </div>
             </dl>
           </section>
 
           <section>
-            <p className="eyebrow">Application Brief</p>
-            <h2>General Note</h2>
+            <p className="eyebrow">Başvuru Bilgisi</p>
+            <h2>Genel Not</h2>
             <p>{run.application_brief}</p>
           </section>
         </aside>
       </div>
 
-      <section className="ats-preview" aria-label="ATS friendly CV preview">
+      <section className="ats-preview" aria-label="ATS uyumlu CV önizlemesi">
         <div className="section-heading">
           <p className="eyebrow">ATS CV</p>
-          <h2>Generated Resume</h2>
+          <h2>Oluşturulan CV</h2>
         </div>
         <pre>{run.ats_resume_markdown}</pre>
       </section>

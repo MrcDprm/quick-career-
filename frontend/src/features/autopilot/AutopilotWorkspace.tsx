@@ -1,4 +1,4 @@
-// AI Optimized by Skills Agent: Profile capture and LinkedIn autonomous application workspace.
+// AI Optimized by Skills Agent: Profil kaydı ve LinkedIn Kolay Başvuru otomasyon çalışma alanı.
 import { useMemo, useState } from "react";
 
 import {
@@ -8,7 +8,7 @@ import {
 } from "../../api/autopilot";
 import "./autopilotWorkspace.css";
 
-// AI Optimized by Skills Agent: Splits comma/newline text into stable profile arrays.
+// AI Optimized by Skills Agent: Virgül/satır sonu ayrımlı metni kararlı profil listelerine çevirir.
 function splitList(value: string) {
   return value
     .split(/[,\n]/)
@@ -16,7 +16,7 @@ function splitList(value: string) {
     .filter(Boolean);
 }
 
-// AI Optimized by Skills Agent: Builds a rich profile object from compact hackathon form fields.
+// AI Optimized by Skills Agent: Hackathon form alanlarından eksiksiz aday profili üretir.
 function buildProfile(form: ProfileFormState): CandidateProfilePayload {
   const skills = splitList(form.skills);
   return {
@@ -31,7 +31,7 @@ function buildProfile(form: ProfileFormState): CandidateProfilePayload {
     skills,
     education: splitList(form.education).map((entry) => ({
       school: entry,
-      degree: "Education / Training",
+      degree: "Eğitim / Sertifika",
     })),
     certifications: splitList(form.certifications).map((entry) => ({ name: entry })),
     experiences: [
@@ -43,7 +43,7 @@ function buildProfile(form: ProfileFormState): CandidateProfilePayload {
     ],
     projects: splitList(form.projects).map((entry) => ({
       name: entry,
-      description: `Project evidence for ${entry}`,
+      description: `${entry} için proje kanıtı`,
       technologies: skills,
     })),
     languages: splitList(form.languages),
@@ -71,28 +71,28 @@ type ProfileFormState = {
 };
 
 const initialForm: ProfileFormState = {
-  fullName: "Demo Candidate",
+  fullName: "Demo Aday",
   email: "candidate@example.com",
   phone: "+90 555 000 00 00",
-  location: "Istanbul, Turkey",
+  location: "İstanbul, Türkiye",
   links: "https://github.com/demo, https://linkedin.com/in/demo",
   summary:
-    "Full stack developer focused on FastAPI, React, PostgreSQL and workflow automation for business teams.",
-  skills: "Python, FastAPI, React, TypeScript, PostgreSQL, automation, API ownership",
-  education: "Computer Engineering, AI-Augmented Development Training",
-  certifications: "FastAPI Foundations, React TypeScript, SQL for Developers",
-  currentTitle: "Software Developer",
+    "FastAPI, React, PostgreSQL ve iş akışı otomasyonu üzerine çalışan full stack geliştirici.",
+  skills: "Python, FastAPI, React, TypeScript, PostgreSQL, otomasyon, API sahipliği",
+  education: "Bilgisayar Mühendisliği, AI Destekli Geliştirme Eğitimi",
+  certifications: "FastAPI Temelleri, React TypeScript, Geliştiriciler için SQL",
+  currentTitle: "Yazılım Geliştirici",
   currentCompany: "Demo Labs",
   experienceHighlights:
-    "Built FastAPI services\nCreated React dashboards\nReduced repetitive reporting work with automation",
-  projects: "Quick-Career, Workflow Automation Dashboard",
-  languages: "Turkish, English",
+    "FastAPI servisleri geliştirdi\nReact panoları oluşturdu\nOtomasyonla tekrarlı raporlama işlerini azalttı",
+  projects: "Quick-Career, İş Akışı Otomasyon Panosu",
+  languages: "Türkçe, İngilizce",
   jobKeywords: "Python, FastAPI, React, PostgreSQL, automation",
   linkedinSearchUrl: "",
   maxApplications: 2,
 };
 
-// AI Optimized by Skills Agent: Usable first-screen workflow for profile save and autonomous applications.
+// AI Optimized by Skills Agent: Profil kaydı, gerçek ilan çekme, ATS CV ve başvuru akışını tek ekranda çalıştırır.
 export function AutopilotWorkspace() {
   const [form, setForm] = useState<ProfileFormState>(initialForm);
   const [result, setResult] = useState<AutopilotApplyResponse | null>(null);
@@ -119,121 +119,122 @@ export function AutopilotWorkspace() {
           limit: form.maxApplications,
           linkedin_search_url: form.linkedinSearchUrl || undefined,
           minimum_skill_matches: 1,
+          easy_apply_only: true,
         },
         max_applications: form.maxApplications,
-        submission_mode: "mock",
+        submission_mode: "platform",
       });
       setResult(response);
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "Autopilot workflow failed.");
+      setError(requestError instanceof Error ? requestError.message : "Otomatik başvuru akışı başarısız oldu.");
     } finally {
       setIsRunning(false);
     }
   }
 
   return (
-    <section className="autopilot-workspace" aria-label="LinkedIn autonomous application workflow">
+    <section className="autopilot-workspace" aria-label="LinkedIn Kolay Başvuru otomasyon akışı">
       <header className="autopilot-header">
         <div>
-          <p className="eyebrow">Final workflow</p>
-          <h2>Profile to LinkedIn applications</h2>
+          <p className="eyebrow">Final akış</p>
+          <h2>Profil bilgilerini LinkedIn başvurularına dönüştür</h2>
           <p>
-            Save personal info, education, certifications, skills and experience, then scrape filtered
-            LinkedIn jobs and apply with ATS-friendly CVs.
+            Kişisel bilgileri, eğitimleri, sertifikaları, yetenekleri ve deneyimleri kaydet; yalnızca LinkedIn
+            Kolay Başvuru ilanlarını çek ve her ilana göre ATS uyumlu CV paketi hazırla.
           </p>
         </div>
         <button type="button" disabled={isRunning} onClick={handleRunAutopilot}>
-          {isRunning ? "Running" : "Run autopilot"}
+          {isRunning ? "Çalışıyor" : "Otomatik akışı çalıştır"}
         </button>
       </header>
 
       <div className="autopilot-grid">
-        <form className="profile-form">
+        <form className="profile-form" aria-label="Aday profil formu">
           <label>
-            Full name
+            Ad Soyad
             <input value={form.fullName} onChange={(event) => updateField("fullName", event.target.value)} />
           </label>
           <label>
-            Email
+            E-posta
             <input value={form.email} onChange={(event) => updateField("email", event.target.value)} />
           </label>
           <label>
-            Phone
+            Telefon
             <input value={form.phone} onChange={(event) => updateField("phone", event.target.value)} />
           </label>
           <label>
-            Location
+            Konum
             <input value={form.location} onChange={(event) => updateField("location", event.target.value)} />
           </label>
           <label className="wide">
-            Links
+            Bağlantılar
             <textarea value={form.links} onChange={(event) => updateField("links", event.target.value)} />
           </label>
           <label className="wide">
-            General briefing
+            Genel bilgilendirme
             <textarea value={form.summary} onChange={(event) => updateField("summary", event.target.value)} />
           </label>
           <label className="wide">
-            Skills
+            Yetenekler
             <textarea value={form.skills} onChange={(event) => updateField("skills", event.target.value)} />
           </label>
           <label>
-            Education
+            Eğitimler
             <textarea value={form.education} onChange={(event) => updateField("education", event.target.value)} />
           </label>
           <label>
-            Certifications
+            Sertifikalar
             <textarea
               value={form.certifications}
               onChange={(event) => updateField("certifications", event.target.value)}
             />
           </label>
           <label>
-            Current title
+            Mevcut unvan
             <input
               value={form.currentTitle}
               onChange={(event) => updateField("currentTitle", event.target.value)}
             />
           </label>
           <label>
-            Current company
+            Mevcut şirket
             <input
               value={form.currentCompany}
               onChange={(event) => updateField("currentCompany", event.target.value)}
             />
           </label>
           <label className="wide">
-            Experience highlights
+            Deneyim öne çıkanları
             <textarea
               value={form.experienceHighlights}
               onChange={(event) => updateField("experienceHighlights", event.target.value)}
             />
           </label>
           <label>
-            Projects
+            Projeler
             <textarea value={form.projects} onChange={(event) => updateField("projects", event.target.value)} />
           </label>
           <label>
-            Languages
+            Diller
             <textarea value={form.languages} onChange={(event) => updateField("languages", event.target.value)} />
           </label>
           <label className="wide">
-            LinkedIn search URL
+            LinkedIn ilan arama URL'i
             <input
               value={form.linkedinSearchUrl}
-              placeholder="Optional public LinkedIn jobs search URL"
+              placeholder="Boş bırakılırsa anahtar kelimelerle gerçek Kolay Başvuru ilanları çekilir"
               onChange={(event) => updateField("linkedinSearchUrl", event.target.value)}
             />
           </label>
           <label>
-            Job keywords
+            İlan anahtar kelimeleri
             <textarea
               value={form.jobKeywords}
               onChange={(event) => updateField("jobKeywords", event.target.value)}
             />
           </label>
           <label>
-            Max applications
+            Maksimum başvuru
             <input
               type="number"
               min={1}
@@ -246,30 +247,36 @@ export function AutopilotWorkspace() {
 
         <aside className="autopilot-preview">
           <section>
-            <p className="eyebrow">Saved profile preview</p>
+            <p className="eyebrow">Kayıtlı profil önizlemesi</p>
             <h3>{profilePreview.personal.full_name}</h3>
             <p>{profilePreview.summary}</p>
-            <strong>{profilePreview.skills.length} skills ready</strong>
+            <strong>{profilePreview.skills.length} yetenek hazır</strong>
           </section>
 
           {error ? (
             <section className="autopilot-error" role="alert">
-              <strong>API unavailable</strong>
+              <strong>API'ye ulaşılamadı</strong>
               <p>{error}</p>
             </section>
           ) : null}
 
           {result ? (
             <section>
-              <p className="eyebrow">Applications</p>
-              <h3>{result.total_applications} submitted</h3>
+              <p className="eyebrow">Başvurular</p>
+              <h3>{result.total_applications} başvuru gönderildi</h3>
               <p>{result.summary}</p>
               <div className="application-results">
                 {result.applications.map((application) => (
                   <article key={application.submission.receipt}>
                     <strong>{application.job.title}</strong>
                     <span>{application.job.company}</span>
-                    <small>{application.optimization.highlighted_skills.join(", ")}</small>
+                    <small>
+                      {application.job.easy_apply ? "Kolay Başvuru" : "Kolay Başvuru değil"} ·{" "}
+                      {application.optimization.highlighted_skills.join(", ")}
+                    </small>
+                    <a href={application.job.source_url} target="_blank" rel="noreferrer">
+                      İlanı aç
+                    </a>
                     <p>{application.submission.receipt}</p>
                   </article>
                 ))}

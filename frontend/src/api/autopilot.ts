@@ -46,6 +46,7 @@ export type LinkedInJobFilters = {
   limit: number;
   linkedin_search_url?: string;
   minimum_skill_matches: number;
+  easy_apply_only: boolean;
 };
 
 export type AutopilotApplyRequest = {
@@ -64,6 +65,7 @@ export type AutopilotApplyResponse = {
       company: string;
       location: string;
       source_url: string;
+      easy_apply: boolean;
       match_score: number;
       matched_skills: string[];
     };

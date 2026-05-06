@@ -9,12 +9,12 @@ type AppShellProps = {
 export function AppShell({ children }: AppShellProps) {
   return (
     <main className="app-shell">
-      <header className="topbar" aria-label="Quick-Career workspace">
+      <header className="topbar" aria-label="Quick-Career çalışma alanı">
         <div>
           <p className="eyebrow">Quick-Career MVP</p>
-          <h1>Autonomous career workflow</h1>
+          <h1>Otonom kariyer iş akışı</h1>
         </div>
-        <span className="status-pill">Mock AI ready</span>
+        <span className="status-pill">AI adaptörü hazır</span>
       </header>
       {children}
     </main>

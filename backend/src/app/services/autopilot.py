@@ -49,6 +49,9 @@ class AutopilotApplicationService:
         applications: list[AutopilotApplicationResult] = []
 
         for job in search.jobs[: request.max_applications]:
+            if request.filters.easy_apply_only and not job.easy_apply:
+                continue
+
             optimization = await self._optimizer.optimize(
                 OptimizationRequest(
                     target_role=job.title,
@@ -94,7 +97,7 @@ class AutopilotApplicationService:
             applications=applications,
             total_applications=len(applications),
             summary=(
-                f"Saved {profile.personal.full_name}'s profile, filtered {len(search.jobs)} LinkedIn jobs "
-                f"and submitted {len(applications)} ATS-tailored applications."
+                f"{profile.personal.full_name} profili kaydedildi, {len(search.jobs)} LinkedIn Kolay Başvuru ilanı "
+                f"filtrelendi ve {len(applications)} ATS uyumlu başvuru paketi gönderildi."
             ),
         )
