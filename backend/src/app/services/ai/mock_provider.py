@@ -28,7 +28,22 @@ def _schema_payload(schema_name: str, user_payload: dict[str, Any]) -> dict[str,
         },
         "ResumeProfileSummary": {
             "owner_name": user_payload.get("owner_name", "Demo Candidate"),
-            "skills": ["Python", "React", "SQL"],
+            "summary": "Backend-oriented developer with experience building API and automation workflows.",
+            "experiences": [
+                {
+                    "title": "Software Developer",
+                    "company": "Demo Labs",
+                    "years": 2,
+                    "highlights": [
+                        "Built Python API services",
+                        "Improved manual workflow speed with automation",
+                    ],
+                }
+            ],
+            "education": ["BSc Computer Engineering"],
+            "skills": ["Python", "FastAPI", "React", "SQL"],
+            "projects": ["Quick-Career automation prototype"],
+            "languages": ["Turkish", "English"],
             "experience_years": 2,
         },
         "OptimizationDiffItem": {
